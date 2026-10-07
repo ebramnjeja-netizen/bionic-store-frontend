@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Bionic Store</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+<h2>Bionic Store Login</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="handleLogin()">
+
+Login
+
+</button>
+
+<hr>
+
+<h2>Create Account</h2>
+
+<input
+id="registerName"
+type="text"
+placeholder="Full Name">
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="registerPassword"
+type="password"
+placeholder="Password">
+
+<button onclick="handleRegister()">
+
+Register
+
+</button>
+
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+
+</body>
+</html>

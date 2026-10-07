@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | Receipt</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="receipt-page">
+
+    <div class="receipt-actions">
+
+        <button
+            type="button"
+            onclick="window.print()"
+        >
+            🖨️ Print Receipt
+        </button>
+
+        <button
+            type="button"
+            onclick="window.location.href='pos.html'"
+        >
+            ← Back to POS
+        </button>
+
+    </div>
+
+
+    <div class="receipt" id="receipt">
+
+        <div class="receipt-header">
+
+            <h1>BIONIC STORE</h1>
+
+            <p>Phones & Accessories</p>
+
+            <p>SALES RECEIPT</p>
+
+        </div>
+
+
+        <div class="receipt-info">
+
+            <p>
+                <strong>Receipt:</strong>
+                <span id="receiptNumber">-</span>
+            </p>
+
+            <p>
+                <strong>Date:</strong>
+                <span id="receiptDate">-</span>
+            </p>
+
+            <p>
+                <strong>Customer:</strong>
+                <span id="customerName">Walk-in Customer</span>
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                <span id="customerPhone">-</span>
+            </p>
+
+        </div>
+
+
+        <hr>
+
+
+        <table class="receipt-items">
+
+            <thead>
+
+                <tr>
+
+                    <th>Item</th>
+
+                    <th>Qty</th>
+
+                    <th>Price</th>
+
+                    <th>Total</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="receiptItems">
+
+            </tbody>
+
+        </table>
+
+
+        <hr>
+
+
+        <div class="receipt-summary">
+
+            <div>
+
+                <span>Subtotal</span>
+
+                <strong id="receiptSubtotal">
+                    TZS 0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Discount</span>
+
+                <strong id="receiptDiscount">
+                    TZS 0
+                </strong>
+
+            </div>
+
+
+            <div class="receipt-grand-total">
+
+                <span>TOTAL</span>
+
+                <strong id="receiptTotal">
+                    TZS 0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Payment</span>
+
+                <strong id="receiptPayment">
+                    Cash
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Amount Received</span>
+
+                <strong id="receiptReceived">
+                    TZS 0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>Change</span>
+
+                <strong id="receiptChange">
+                    TZS 0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="receipt-footer">
+
+            <p>Thank you for shopping with us!</p>
+
+            <p>Come again.</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../js/pos-receipt.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Successful | Bionic Store</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+
+</head>
+
+<body>
+
+<div class="order-success-container">
+
+
+<div class="success-icon">
+    ✓
+</div>
+
+<h1>Order Placed Successfully!</h1>
+
+<p class="success-message">
+    🎉 Thank you for shopping with Bionic Store.
+</p>
+
+<p>
+    Your order has been received and is being processed.
+</p>
+
+<div class="success-order-box">
+
+    <h2>Order Details</h2>
+
+    <p>
+        <strong>Order Number:</strong>
+        <span id="successOrderNumber">Loading...</span>
+    </p>
+
+    <p>
+        <strong>Status:</strong>
+        <span id="successOrderStatus">Pending</span>
+    </p>
+
+    <p>
+        <strong>Total:</strong>
+        <span id="successOrderTotal">TZS 0</span>
+    </p>
+
+    <p>
+        <strong>Payment:</strong>
+        <span id="successPaymentMethod">Cash on Delivery</span>
+    </p>
+
+</div>
+
+<div class="success-buttons">
+
+    <button
+        onclick="viewMyOrder()"
+        class="view-order-btn">
+
+        📦 View My Order
+
+    </button>
+
+    <button
+        onclick="continueShopping()"
+        class="continue-shopping-btn">
+
+        🛍 Continue Shopping
+
+    </button>
+
+</div>
+
+
+</div>
+
+<script>
+
+function formatMoney(value) {
+
+    return `TZS ${Number(value || 0).toLocaleString("en-TZ")}`;
+
+}
+
+
+function loadSuccessOrder() {
+
+    const savedOrder =
+        localStorage.getItem("lastOrder");
+
+    if (!savedOrder) {
+
+        document.getElementById(
+            "successOrderNumber"
+        ).textContent = "Unavailable";
+
+        return;
+    }
+
+    try {
+
+        const order =
+            JSON.parse(savedOrder);
+
+        const orderId =
+            order._id || order.id || "";
+
+        document.getElementById(
+            "successOrderNumber"
+        ).textContent =
+            orderId
+                ? `#${String(orderId).slice(-6).toUpperCase()}`
+                : "Unavailable";
+
+        document.getElementById(
+            "successOrderStatus"
+        ).textContent =
+            order.status || "Pending";
+
+        document.getElementById(
+            "successOrderTotal"
+        ).textContent =
+            formatMoney(
+                order.totalPrice
+            );
+
+        document.getElementById(
+            "successPaymentMethod"
+        ).textContent =
+            order.paymentMethod ||
+            "Cash on Delivery";
+
+    } catch (error) {
+
+        console.error(
+            "ORDER SUCCESS ERROR:",
+            error
+        );
+
+    }
+
+}
+
+
+function viewMyOrder() {
+
+    window.location.href =
+        "my-orders.html";
+
+}
+
+
+function continueShopping() {
+
+    window.location.href =
+        "../index.html";
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadSuccessOrder
+);
+
+</script>
+
+</body>
+
+</html>

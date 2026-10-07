@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product | Bionic Store</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Product</h1>
+
+    <form id="editProductForm">
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Product Name"
+            required>
+
+        <input
+            type="number"
+            id="price"
+            placeholder="Price"
+            required>
+
+            <input
+             type="number"
+              id="costPrice"
+              placeholder="Cost Price"
+              min="0"
+              step="0.01"
+              required>
+
+        <input
+             type="number"
+             id="stock"
+             placeholder="Stock"
+              min="0"
+             step="1"
+             required>
+
+        <input
+            type="text"
+            id="category"
+            placeholder="Category"
+            required>
+
+        <textarea
+            id="description"
+            placeholder="Description"
+            required></textarea>
+
+        <input
+            type="number"
+            id="rating"
+            min="1"
+            max="5"
+            placeholder="Rating"
+            required>
+
+        <input
+            type="text"
+            id="badge"
+            placeholder="Badge">
+
+        <input
+            type="text"
+            id="image"
+            placeholder="Image Path">
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+</div>
+
+<script src="../js/editProduct.js"></script>
+
+</body>
+</html>

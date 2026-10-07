@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Wi-Fi Sales Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css">
+
+    <style>
+
+        .wifi-dashboard {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-header h1 {
+            margin: 0;
+        }
+
+        .dashboard-refresh {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-card h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: #666;
+        }
+
+        .dashboard-card .value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #111;
+        }
+
+        .dashboard-card .small {
+            margin-top: 6px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-panel {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .dashboard-panel h2 {
+            margin-top: 0;
+        }
+
+        .sales-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sales-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sales-row:last-child {
+            border-bottom: none;
+        }
+
+        .sales-name {
+            font-weight: bold;
+        }
+
+        .sales-info {
+            color: #777;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .sales-value {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .dashboard-message {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            height: 260px;
+            min-width: 500px;
+            padding: 20px 10px 0;
+            box-sizing: border-box;
+        }
+
+        .bar-item {
+            flex: 1;
+            min-width: 55px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 55px;
+            min-height: 5px;
+            border-radius: 7px 7px 0 0;
+            background: #007bff;
+        }
+
+        .bar-label {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .bar-value {
+            margin-bottom: 5px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+
+            .wifi-dashboard {
+                padding: 12px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="wifi-dashboard">
+
+    <div class="dashboard-header">
+
+        <h1>
+            📶 Wi-Fi Sales Dashboard
+        </h1>
+
+        <button
+            type="button"
+            class="dashboard-refresh"
+            id="refreshDashboard">
+
+            🔄 Refresh
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="dashboardMessage"
+        class="dashboard-message">
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card">
+
+            <h3>
+                💰 Total Revenue
+            </h3>
+
+            <div
+                id="totalRevenue"
+                class="value">
+
+                0
+
+            </div>
+
+            <div class="small">
+                All Wi-Fi voucher sales
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>
+                🎟️ Vouchers Sold
+            </h3>
+
+            <div
+                id="totalVouchersSold"
+                class="value">
+
+                0
+
+            </div>
+
+            <div class="small">
+                Total sold vouchers
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>
+                📅 Today's Revenue
+            </h3>
+
+            <div
+                id="todayRevenue"
+                class="value">
+
+                0
+
+            </div>
+
+            <div
+                id="todaySales"
+                class="small">
+
+                0 sales today
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <h3>
+                🏆 Best Package
+            </h3>
+
+            <div
+                id="bestPackage"
+                class="value">
+
+                -
+
+            </div>
+
+            <div
+                id="bestPackageRevenue"
+                class="small">
+
+                No sales yet
+
+            </div>
+
+        </div>
+
+        <!-- WI-FI STATUS OVERVIEW -->
+
+<div class="dashboard-card">
+
+    <h3>🟢 Available Vouchers</h3>
+
+    <div
+        id="availableVouchers"
+        class="value">
+
+        0
+
+    </div>
+
+    <div class="small">
+        Ready for customers
+    </div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+    <h3>🔵 Active Vouchers</h3>
+
+    <div
+        id="activeVouchers"
+        class="value">
+
+        0
+
+    </div>
+
+    <div class="small">
+        Currently active
+    </div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+    <h3>🔴 Expired Vouchers</h3>
+
+    <div
+        id="expiredVouchers"
+        class="value">
+
+        0
+
+    </div>
+
+    <div class="small">
+        Automatically expired
+    </div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+    <h3>📦 Total Vouchers</h3>
+
+    <div
+        id="totalVouchers"
+        class="value">
+
+        0
+
+    </div>
+
+    <div class="small">
+        All voucher records
+    </div>
+
+</div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+
+        <!-- DAILY SALES -->
+
+        <div class="dashboard-panel">
+
+            <h2>
+                📈 Daily Sales
+            </h2>
+
+            <div class="chart-container">
+
+                <div
+                    id="dailyChart"
+                    class="bar-chart">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PACKAGE SALES -->
+
+        <div class="dashboard-panel">
+
+            <h2>
+                📦 Sales by Package
+            </h2>
+
+            <div
+                id="packageSales"
+                class="sales-list">
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT METHODS -->
+
+        <div class="dashboard-panel">
+
+            <h2>
+                💳 Payment Methods
+            </h2>
+
+            <div
+                id="paymentMethods"
+                class="sales-list">
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT DAILY SALES -->
+
+        <div class="dashboard-panel">
+
+            <h2>
+                📊 Sales Summary
+            </h2>
+
+            <div
+                id="salesSummary"
+                class="sales-list">
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_BASE_URL =
+    "https://bionic-store-backend.onrender.com/api";
+
+
+async function loadDashboard() {
+
+    const message =
+        document.getElementById(
+            "dashboardMessage"
+        );
+
+    try {
+
+        const response =
+            await fetch(
+                API_BASE_URL +
+                "/wifi-vouchers/sales-report"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load sales report."
+            );
+
+        }
+
+
+        // =====================================
+        // SUMMARY
+        // =====================================
+
+        document.getElementById(
+            "totalRevenue"
+        ).textContent =
+            formatMoney(
+                data.totalRevenue
+            );
+
+
+        document.getElementById(
+            "totalVouchersSold"
+        ).textContent =
+            data.totalVouchersSold || 0;
+
+
+        document.getElementById(
+            "todayRevenue"
+        ).textContent =
+            formatMoney(
+                data.todayRevenue
+            );
+
+
+        document.getElementById(
+            "todaySales"
+        ).textContent =
+            (data.todaySales || 0) +
+            " sales today";
+
+
+        if (data.bestSellingPackage) {
+
+            document.getElementById(
+                "bestPackage"
+            ).textContent =
+                data.bestSellingPackage.packageName;
+
+
+            document.getElementById(
+                "bestPackageRevenue"
+            ).textContent =
+                data.bestSellingPackage.vouchersSold +
+                " sold • " +
+                formatMoney(
+                    data.bestSellingPackage.revenue
+                );
+
+        } else {
+
+            document.getElementById(
+                "bestPackage"
+            ).textContent = "-";
+
+
+            document.getElementById(
+                "bestPackageRevenue"
+            ).textContent =
+                "No sales yet";
+
+        }
+
+
+        renderDailyChart(
+            data.dailySales || []
+        );
+
+
+        renderPackageSales(
+            data.packageSales || []
+        );
+
+
+        renderPaymentMethods(
+            data.paymentMethods || []
+        );
+
+
+        renderSalesSummary(
+            data.dailySales || []
+        );
+
+
+        if (message) {
+            message.textContent =
+                "✅ Sales dashboard updated.";
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Wi-Fi dashboard error:",
+            error
+        );
+
+
+        if (message) {
+
+            message.textContent =
+                "❌ Failed to load Wi-Fi sales dashboard.";
+
+        }
+
+    }
+
+}
+
+
+function formatMoney(amount) {
+
+    return Number(amount || 0)
+        .toLocaleString();
+
+}
+
+
+function renderDailyChart(records) {
+
+    const container =
+        document.getElementById(
+            "dailyChart"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (!records.length) {
+
+        container.innerHTML =
+            "<p>No sales yet.</p>";
+
+        return;
+
+    }
+
+
+    const maxRevenue =
+        Math.max(
+            ...records.map(
+                item =>
+                    Number(item.revenue) || 0
+            ),
+            1
+        );
+
+
+    records.forEach(function (item) {
+
+        const barItem =
+            document.createElement("div");
+
+        barItem.className =
+            "bar-item";
+
+
+        const value =
+            Number(item.revenue) || 0;
+
+
+        const height =
+            Math.max(
+                8,
+                (value / maxRevenue) * 190
+            );
+
+
+        barItem.innerHTML =
+
+            "<div class='bar-value'>" +
+
+                formatMoney(value) +
+
+            "</div>" +
+
+            "<div " +
+                "class='bar' " +
+                "style='height:" +
+                height +
+                "px'>" +
+            "</div>" +
+
+            "<div class='bar-label'>" +
+
+                formatDate(
+                    item.date
+                ) +
+
+            "</div>";
+
+
+        container.appendChild(
+            barItem
+        );
+
+    });
+
+}
+
+
+function renderPackageSales(records) {
+
+    const container =
+        document.getElementById(
+            "packageSales"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (!records.length) {
+
+        container.innerHTML =
+            "<p>No package sales yet.</p>";
+
+        return;
+
+    }
+
+
+    records.forEach(function (item) {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "sales-row";
+
+
+        row.innerHTML =
+
+            "<div>" +
+
+                "<div class='sales-name'>" +
+
+                    escapeHtml(
+                        item.packageName
+                    ) +
+
+                "</div>" +
+
+                "<div class='sales-info'>" +
+
+                    item.vouchersSold +
+                    " voucher(s)" +
+
+                "</div>" +
+
+            "</div>" +
+
+            "<div class='sales-value'>" +
+
+                formatMoney(
+                    item.revenue
+                ) +
+
+            "</div>";
+
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+function renderPaymentMethods(records) {
+
+    const container =
+        document.getElementById(
+            "paymentMethods"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (!records.length) {
+
+        container.innerHTML =
+            "<p>No payment data yet.</p>";
+
+        return;
+
+    }
+
+
+    records.forEach(function (item) {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "sales-row";
+
+
+        row.innerHTML =
+
+            "<div>" +
+
+                "<div class='sales-name'>" +
+
+                    escapeHtml(
+                        item.paymentMethod
+                    ) +
+
+                "</div>" +
+
+                "<div class='sales-info'>" +
+
+                    item.vouchersSold +
+                    " voucher(s)" +
+
+                "</div>" +
+
+            "</div>" +
+
+            "<div class='sales-value'>" +
+
+                formatMoney(
+                    item.revenue
+                ) +
+
+            "</div>";
+
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+function renderSalesSummary(records) {
+
+    const container =
+        document.getElementById(
+            "salesSummary"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    if (!records.length) {
+
+        container.innerHTML =
+            "<p>No sales yet.</p>";
+
+        return;
+
+    }
+
+
+    [...records]
+        .reverse()
+        .forEach(function (item) {
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "sales-row";
+
+
+            row.innerHTML =
+
+                "<div>" +
+
+                    "<div class='sales-name'>" +
+
+                        formatDate(
+                            item.date
+                        ) +
+
+                    "</div>" +
+
+                    "<div class='sales-info'>" +
+
+                        item.vouchersSold +
+                        " voucher(s) sold" +
+
+                    "</div>" +
+
+                "</div>" +
+
+                "<div class='sales-value'>" +
+
+                    formatMoney(
+                        item.revenue
+                    ) +
+
+                "</div>";
+
+
+            container.appendChild(row);
+
+        });
+
+}
+
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            day: "2-digit",
+            month: "short"
+        }
+    );
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value || "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log(
+            "Wi-Fi Sales Dashboard ready."
+        );
+
+
+        const refresh =
+            document.getElementById(
+                "refreshDashboard"
+            );
+
+
+        if (refresh) {
+
+            refresh.addEventListener(
+                "click",
+                loadDashboard
+            );
+
+        }
+
+
+        loadDashboard();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

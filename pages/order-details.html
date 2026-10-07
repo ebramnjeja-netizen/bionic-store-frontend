@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | Order Details</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+<body>
+
+<main class="order-details-page">
+
+    <div class="order-details-header">
+
+        <a href="orders.html">
+            ← Back to Sales
+        </a>
+
+        <button
+            type="button"
+            class="primary-btn"
+            onclick="window.print()"
+        >
+            🖨️ Print Order
+        </button>
+
+    </div>
+
+
+    <section class="order-details-card">
+
+        <div class="order-details-title">
+
+            <div>
+
+                <h1>
+                    Order Details
+                </h1>
+
+                <p id="orderNumber">
+                    Loading...
+                </p>
+
+            </div>
+
+            <strong id="orderStatus">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="order-customer-info">
+
+            <div>
+
+                <h3>
+                    Customer
+                </h3>
+
+                <p id="customerName">
+                    -
+                </p>
+
+                <p id="customerPhone">
+                    -
+                </p>
+
+                <p id="customerEmail">
+                    -
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Order Information
+                </h3>
+
+                <p>
+                    Date:
+                    <strong id="orderDate">-</strong>
+                </p>
+
+                <p>
+                    Payment:
+                    <strong id="paymentMethod">-</strong>
+                </p>
+
+                <p>
+                    Order Type:
+                    <strong id="orderType">-</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="customer-table-container">
+
+            <table id="orderProductsTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="orderProducts">
+
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            style="text-align:center;"
+                        >
+                            Loading...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="order-financial-summary">
+
+            <div>
+                <span>Subtotal</span>
+                <strong id="orderSubtotal">TZS 0</strong>
+            </div>
+
+            <div>
+                <span>Discount</span>
+                <strong id="orderDiscount">TZS 0</strong>
+            </div>
+
+            <div class="order-grand-total">
+                <span>Total</span>
+                <strong id="orderTotal">TZS 0</strong>
+            </div>
+
+            <div>
+                <span>Amount Received</span>
+                <strong id="amountReceived">TZS 0</strong>
+            </div>
+
+            <div>
+                <span>Change</span>
+                <strong id="orderChange">TZS 0</strong>
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+<script src="../js/order-details.js"></script>
+
+</body>
+
+</html>

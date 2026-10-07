@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store Wi-Fi</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="wifi-page">
+
+    <header class="wifi-header">
+
+        <h1>📶 Bionic Store Wi-Fi</h1>
+
+        <p>
+            Fast & Affordable Internet Access
+        </p>
+
+    </header>
+
+
+    <section class="wifi-intro">
+
+        <h2>Stay Connected with Bionic Store</h2>
+
+        <p>
+            Enjoy reliable internet access while
+            shopping, working, studying or relaxing.
+        </p>
+
+        <p>
+            Choose a Wi-Fi voucher that fits your needs.
+        </p>
+
+    </section>
+
+
+   <section class="wifi-packages">
+
+    <h2>Available Wi-Fi Packages</h2>
+
+    <p class="wifi-package-intro">
+        Choose a Wi-Fi package that fits your needs.
+    </p>
+
+    <div
+        id="wifiPackages"
+        class="wifi-package-grid">
+
+        <p>Loading available Wi-Fi packages...</p>
+
+    </div>
+
+</section>
+
+<!-- WI-FI NOTIFICATIONS -->
+
+<div
+    id="wifiNotificationArea"
+    class="wifi-notification-area">
+</div>
+
+
+<!-- CUSTOMER WI-FI DASHBOARD -->
+
+<section class="customer-wifi-dashboard">
+
+    <h2>👤 My Wi-Fi Dashboard</h2>
+
+    <div class="customer-wifi-cards">
+
+        <div class="customer-wifi-card">
+            <span>👤 Customer</span>
+            <strong id="wifiCustomerName">-</strong>
+        </div>
+
+        <div class="customer-wifi-card">
+            <span>📱 Phone</span>
+            <strong id="wifiCustomerPhone">-</strong>
+        </div>
+
+        <div class="customer-wifi-card">
+            <span>🎟️ Total Purchases</span>
+            <strong id="wifiTotalPurchases">0</strong>
+        </div>
+
+        <div class="customer-wifi-card">
+            <span>🟢 Active</span>
+            <strong id="wifiActivePurchases">0</strong>
+        </div>
+
+        <div class="customer-wifi-card">
+            <span>🔴 Expired</span>
+            <strong id="wifiExpiredPurchases">0</strong>
+        </div>
+
+        <div class="customer-wifi-card">
+            <span>💰 Total Spent</span>
+            <strong id="wifiTotalSpent">TZS 0</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="wifi-history-section">
+
+    <h2>📋 My Wi-Fi Purchases</h2>
+
+    <p>
+        Enter the phone number you used when purchasing
+        your Wi-Fi voucher.
+    </p>
+
+    <div class="wifi-history-search">
+
+        <div class="wifi-history-login">
+
+    <p>
+        🔐 Login to your Bionic Store account to view
+        your Wi-Fi purchases.
+    </p>
+
+    <button
+        type="button"
+        onclick="loadCustomerWifiHistory()">
+        📋 View My Purchases
+    </button>
+
+</div>
+
+    </div>
+
+    <div id="wifiHistoryResults">
+        <p class="history-empty">
+            Your Wi-Fi purchase history will appear here.
+        </p>
+    </div>
+
+</section>
+
+
+    <section class="wifi-how">
+
+        <h2>How to Connect</h2>
+
+        <ol>
+
+            <li>
+                Purchase a Bionic Store Wi-Fi voucher.
+            </li>
+
+            <li>
+                Connect your phone or laptop to
+                <strong>Bionic Store Wi-Fi</strong>.
+            </li>
+
+            <li>
+                Enter the voucher details.
+            </li>
+
+            <li>
+                Start browsing the internet.
+            </li>
+
+        </ol>
+
+    </section>
+
+
+    <section class="wifi-help">
+
+        <h2>Need Help?</h2>
+
+        <p>
+            Visit the Bionic Store shop and our staff
+            will help you connect.
+        </p>
+
+        <p>
+            📶 Fast internet.  
+            🛒 Great products.  
+            🔧 Reliable repairs.
+        </p>
+
+    </section>
+
+
+    <div class="wifi-actions">
+
+        <a
+            href="../index.html"
+            class="continue-btn">
+            ← Back to Bionic Store
+        </a>
+
+    </div>
+
+
+</div>
+
+<!-- ========================================
+     WI-FI CHECKOUT MODAL
+======================================== -->
+
+<div
+    id="wifiCheckoutModal"
+    class="wifi-modal">
+
+    <div class="wifi-modal-box">
+
+        <button
+            type="button"
+            class="wifi-modal-close"
+            onclick="closeWifiCheckout()">
+
+            ×
+
+        </button>
+
+        <div class="wifi-modal-icon">
+            📶
+        </div>
+
+        <h2>Wi-Fi Checkout</h2>
+
+        <div class="wifi-selected-package">
+
+            <h3 id="wifiCheckoutPackage">
+                Wi-Fi Package
+            </h3>
+
+            <p id="wifiCheckoutDuration">
+                Duration
+            </p>
+
+            <strong id="wifiCheckoutPrice">
+                TZS 0
+            </strong>
+
+        </div>
+
+
+        <form
+            id="wifiCheckoutForm"
+            onsubmit="submitWifiPurchase(event)">
+
+            <label>
+                Your Name
+            </label>
+
+            <input
+                type="text"
+                id="wifiCustomerName"
+                placeholder="Enter your name"
+                required>
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="wifiCustomerPhone"
+                placeholder="e.g. 0712345678"
+                required>
+
+
+            <label>
+                Payment Method
+            </label>
+
+            <select
+                id="wifiPaymentMethod"
+                required>
+
+                <option value="">
+                    Select payment method
+                </option>
+
+                <option value="Cash">
+                    Cash
+                </option>
+
+                <option value="M-Pesa">
+                    M-Pesa
+                </option>
+
+                <option value="Airtel Money">
+                    Airtel Money
+                </option>
+
+                <option value="Tigo Pesa">
+                    Tigo Pesa
+                </option>
+
+                <option value="Halopesa">
+                    Halopesa
+                </option>
+
+                <option value="Card">
+                    Card
+                </option>
+
+            </select>
+
+
+            <label>
+                Amount Received
+            </label>
+
+            <input
+                type="number"
+                id="wifiAmountReceived"
+                min="0"
+                placeholder="Enter amount"
+                required>
+
+
+            <button
+                type="submit"
+                id="wifiPurchaseButton"
+                class="wifi-purchase-button">
+
+                Purchase Wi-Fi Voucher
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================
+     WI-FI SUCCESS MODAL
+======================================== -->
+
+<div
+    id="wifiSuccessModal"
+    class="wifi-modal">
+
+    <div class="wifi-modal-box wifi-success-box">
+
+        <div class="wifi-success-icon">
+            🎉
+        </div>
+
+        <h2>
+            Voucher Purchased!
+        </h2>
+
+        <p>
+            Your Wi-Fi voucher is ready.
+        </p>
+
+
+        <div class="wifi-voucher-result">
+
+            <div>
+                <span>Package</span>
+                <strong id="wifiSuccessPackage"></strong>
+            </div>
+
+            <div>
+                <span>Duration</span>
+                <strong id="wifiSuccessDuration"></strong>
+            </div>
+
+            <div class="wifi-code-box">
+
+                <span>Voucher Code</span>
+
+                <strong id="wifiSuccessCode"></strong>
+
+                <button
+                    type="button"
+                    onclick="copyWifiCode()">
+
+                    Copy Code
+
+                </button>
+
+                <div class="wifi-connect-instructions">
+
+    <h3>📶 How to Connect</h3>
+
+    <ol>
+        <li>Turn on Wi-Fi on your phone or laptop.</li>
+        <li>Connect to the <strong>Bionic Store Wi-Fi</strong> network.</li>
+        <li>Enter the voucher code shown above.</li>
+        <li>Enjoy your internet access! 🚀</li>
+    </ol>
+
+    <p>
+        Need help? Please contact Bionic Store support.
+    </p>
+
+            </div>
+
+            </div>
+
+            <div>
+                <span>Price</span>
+                <strong id="wifiSuccessPrice"></strong>
+            </div>
+
+            <div>
+                <span>Amount Paid</span>
+                <strong id="wifiSuccessReceived"></strong>
+            </div>
+
+            <div>
+                <span>Change</span>
+                <strong id="wifiSuccessChange"></strong>
+            </div>
+
+        </div>
+
+
+        <p class="wifi-success-note">
+            Keep your voucher code safe.
+            You will need this code to connect
+            to Bionic Store Wi-Fi.
+        </p>
+
+
+        <button
+            type="button"
+            class="wifi-purchase-button"
+            onclick="closeWifiSuccess()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script src="../js/customerWifi.js"></script>
+
+
+</body>
+
+</html>

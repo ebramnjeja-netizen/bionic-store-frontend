@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Sales History | Bionic Store</title>
+
+    <link rel="stylesheet"
+        href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <aside class="admin-sidebar">
+
+        <h2>BIONIC STORE</h2>
+
+        <nav>
+
+            <a href="admin-dashboard.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="pos.html">
+                🛒 POS
+            </a>
+
+            <a href="sales-history.html"
+               class="active">
+                🧾 Sales History
+            </a>
+
+            <a href="orders.html">
+                📦 Orders
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="sales-page">
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Sales History</h1>
+
+                <p>
+                    View all POS sales transactions
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <section class="sales-summary">
+
+    <div class="sales-summary-card">
+        <h3>Total Sales</h3>
+        <p id="totalSales">0</p>
+    </div>
+
+    <div class="sales-summary-card">
+        <h3>Total Revenue</h3>
+        <p id="totalRevenue">TZS 0</p>
+    </div>
+
+    <div class="sales-summary-card">
+        <h3>Today Sales</h3>
+        <p id="todaySales">0</p>
+    </div>
+
+</section>
+
+
+        <!-- SEARCH -->
+
+        <section class="sales-toolbar">
+
+           <input
+                  type="text"
+                 id="salesSearch"
+                  placeholder="🔎 Search customer or receipt number...">
+
+                <select id="paymentFilter">
+
+               <option value="">
+                 All Payment Methods
+              </option>
+
+                 <option value="Cash">
+                  Cash
+                </option>
+
+                  <option value="M-Pesa">
+                   M-Pesa
+                   </option>
+
+              <option value="Airtel Money">
+                     Airtel Money
+                   </option>
+
+                <option value="Card">
+                  Card
+               </option>
+
+               <option value="Bank Transfer">
+                   Bank Transfer
+                </option>
+
+         </select>
+
+
+             <select id="dateFilter">
+
+                  <option value="all">
+                       All Time
+                   </option>
+
+                   <option value="today">
+                           Today
+                  </option>
+
+                 <option value="week">
+                   This Week
+                 </option>
+
+                  <option value="month">
+                        This Month
+                 </option>
+
+              </select>
+
+
+                <button
+                  type="button"
+                 onclick="loadSales()">
+
+                    🔄 Refresh
+
+              </button>
+
+            </section>
+        </section>
+
+
+        <!-- SALES TABLE -->
+
+        <section class="sales-table-container">
+
+            <div class="sales-table-container">
+
+            <table class="sales-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Receipt</th>
+
+                        <th>Customer</th>
+
+                        <th>Total</th>
+
+                        <th>Payment</th>
+
+                        <th>Date</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="salesTableBody">
+
+                    <tr>
+
+                        <td colspan="6">
+                            Loading sales...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="../js/sales-history.js"></script>
+
+</body>
+
+</html>

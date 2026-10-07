@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Repair Management</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🔧 Bionic Store Repairs
+        </div>
+
+        <div class="nav-links">
+
+            <a href="../index.html">
+                Home
+            </a>
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="inventory.html">
+                Inventory
+            </a>
+
+            <a href="orders.html">
+                Sales
+            </a>
+
+            <a href="customers.html">
+                Customers
+            </a>
+
+            <a href="repairs.html">
+                Book Repair
+            </a>
+
+            <a href="repairManagement.html">
+                🔧 Repairs
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>
+                    Repair Management
+                </h1>
+
+                <p>
+                    Manage customer repair jobs
+                    and track their progress.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="refreshRepairs"
+                class="primary-btn">
+
+                🔄 Refresh
+
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             SEARCH & FILTER
+        ========================== -->
+
+        <section class="repair-tools">
+
+            <input
+                type="search"
+                id="repairSearch"
+                placeholder="🔍 Search customer, phone, brand or model...">
+
+
+
+                <button
+                      type="button"
+                      class="export-btn"
+                     onclick="exportRepairsCSV()">
+                      📥 Export CSV
+                    </button>
+
+
+                <input
+                 type="date"
+                  id="repairStartDate"
+                 title="Start Date">
+
+                <input
+                   type="date"
+                   id="repairEndDate"
+                   title="End Date">
+
+            <select id="repairPriorityFilter">
+
+    <option value="">
+        All Priorities
+    </option>
+
+    <option value="Normal">
+        Normal
+    </option>
+
+    <option value="Urgent">
+        🚨 Urgent
+    </option>
+
+</select>
+
+
+<select id="repairPaymentFilter">
+
+    <option value="">
+        All Payment Status
+    </option>
+
+    <option value="Unpaid">
+        Unpaid
+    </option>
+
+    <option value="Partially Paid">
+        Partially Paid
+    </option>
+
+    <option value="Paid">
+        Paid
+    </option>
+
+</select>
+
+
+        <!-- =========================
+             SUMMARY CARDS
+        ========================== -->
+
+        <section class="dashboard-grid">
+
+    <div class="card">
+        <h3>🔧 Total Repairs</h3>
+        <h2 id="totalRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>⏳ Pending</h3>
+        <h2 id="pendingRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>🛠️ In Repair</h3>
+        <h2 id="activeRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>✅ Ready</h3>
+        <h2 id="readyRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>🚨 Urgent</h3>
+        <h2 id="urgentRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>💰 Unpaid</h3>
+        <h2 id="unpaidRepairs">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>💵 Amount Due</h3>
+        <h2 id="totalRepairDue">TZS 0</h2>
+    </div>
+
+    <div class="card">
+          <h3>📈 Average Repair</h3>
+          <h2 id="averageRepairValue">TZS 0</h2>
+        </div>
+
+        <div class="card">
+    <h3>🏁 Completed</h3>
+    <h2 id="completedRepairs">0</h2>
+</div>
+
+<div class="card">
+    <h3>📈 Completion Rate</h3>
+    <h2 id="repairCompletionRate">0%</h2>
+</div>
+
+<div class="card">
+    <h3>⏱️ Avg. Repair Time</h3>
+    <h2 id="averageRepairTime">0 days</h2>
+</div>
+
+<div class="card">
+    <h3>⏳ Overdue Repairs</h3>
+    <h2 id="overdueRepairs">0</h2>
+</div>
+
+</section>
+
+<section class="repair-overdue-section">
+    <div class="card">
+        <h3>⏳ Overdue Repairs</h3>
+        <div id="overdueRepairList">
+            <p>Loading overdue repairs...</p>
+        </div>
+    </div>
+</section>
+
+<section class="repair-upcoming-section">
+    <div class="card">
+        <h3>📅 Upcoming Repair Deadlines</h3>
+        <div id="upcomingRepairList">
+            <p>Loading upcoming repairs...</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="repair-chart-section">
+    <div class="card">
+        <h3>📊 Repair Status Overview</h3>
+        <canvas id="repairStatusChart"></canvas>
+    </div>
+</section>
+
+<section class="repair-technician-section">
+    <div class="card">
+        <h3>👨‍🔧 Technician Workload</h3>
+
+        <div id="technicianWorkload">
+            <p>Loading technician data...</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="repair-priority-section">
+    <div class="card">
+        <h3>🚨 Repair Priority Overview</h3>
+
+        <div id="repairPriorityOverview">
+            <p>Loading priority data...</p>
+        </div>
+    </div>
+</section>
+
+
+
+
+        <!-- =========================
+             REPAIR TABLE
+        ========================== -->
+
+        <section class="table-wrapper">
+
+            <table
+                id="repairsTable"
+                style="display:none;">
+
+                <thead>
+                     <tr>
+                         <th>Repair</th>
+                        <th>Customer</th>
+                        <th>Device</th>
+                        <th>Problem</th>
+                        <th>Priority</th>
+                        <th>Payment</th>
+                        <th>Amount Due</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                       </tr>
+                </thead>
+
+               <tbody id="repairsTableBody">
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+<!-- =========================
+     REPAIR DETAILS MODAL
+========================== -->
+
+<div
+    id="repairDetailsModal"
+    class="repair-modal"
+    style="display:none;">
+
+    <div class="repair-modal-content">
+
+        <button
+            type="button"
+            id="closeRepairModal"
+            class="repair-modal-close">
+            ×
+        </button>
+
+        <h2>🔧 Repair Details</h2>
+
+        <!-- BASIC INFORMATION -->
+        <div class="repair-details-grid">
+
+            <div class="repair-detail-card">
+                <span>Repair Number</span>
+                <strong id="detailRepairId">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Customer</span>
+                <strong id="detailCustomer">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Phone</span>
+                <strong id="detailPhone">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Device Type</span>
+                <strong id="detailDeviceType">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Brand</span>
+                <strong id="detailBrand">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Model</span>
+                <strong id="detailModel">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Serial Number</span>
+                <strong id="detailSerial">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Priority</span>
+                <strong id="detailPriority">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Status</span>
+                <strong id="detailStatus">-</strong>
+            </div>
+
+            <div class="repair-detail-card">
+                <span>Customer Approval</span>
+                <strong id="detailCustomerApproval">-</strong>
+            </div>
+
+        </div>
+
+
+        <!-- PROBLEM -->
+        <div class="repair-detail-section">
+
+            <h3>📝 Problem Description</h3>
+
+            <p id="detailProblem">-</p>
+
+        </div>
+
+
+        <!-- DEVICE CONDITION -->
+        <div class="repair-detail-section">
+
+            <h3>📱 Device Condition</h3>
+
+            <p id="detailDeviceCondition">-</p>
+
+        </div>
+
+
+        <!-- DATE -->
+        <div class="repair-detail-section">
+
+            <h3>📅 Repair Dates</h3>
+
+            <div class="repair-details-grid">
+
+                <div class="repair-detail-card">
+                    <span>Date Submitted</span>
+                    <strong id="detailDate">-</strong>
+                </div>
+
+                <div class="repair-detail-card">
+                    <span>Expected Completion</span>
+                    <strong id="detailExpectedCompletionDate">-</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAYMENT -->
+        <div class="repair-detail-section">
+
+            <h3>💰 Payment Information</h3>
+
+            <div class="repair-details-grid">
+
+                <div class="repair-detail-card">
+                    <span>Estimated Repair Cost</span>
+                    <strong id="detailRepairCost">TZS 0</strong>
+                </div>
+
+                <div class="repair-detail-card">
+                    <span>Amount Paid</span>
+                    <strong id="detailAmountPaid">TZS 0</strong>
+                </div>
+
+                <div class="repair-detail-card">
+                    <span>Amount Due</span>
+                    <strong id="detailAmountDue">TZS 0</strong>
+                </div>
+
+                <div class="card">
+                      <h3>💰 Repair Revenue</h3>
+                     <h2 id="totalRepairRevenue">TZS 0</h2>
+                </div>
+
+                <div class="repair-detail-card">
+                    <span>Payment Status</span>
+                    <strong id="detailPaymentStatus">Unpaid</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EDIT REPAIR INFORMATION -->
+        <div class="repair-edit-section">
+
+            <h3>🛠️ Repair Information</h3>
+
+
+            <label for="detailRepairCost">
+                Estimated Repair Cost
+            </label>
+
+            <input
+                type="number"
+                id="detailRepairCost"
+                min="0"
+                step="0.01"
+                placeholder="0.00">
+
+
+            <label for="detailAmountPaid">
+                Amount Paid
+            </label>
+
+            <input
+                type="number"
+                id="detailAmountPaid"
+                min="0"
+                step="0.01"
+                placeholder="0.00">
+
+
+            <label for="detailPriority">
+                Priority
+            </label>
+
+            <select id="detailPriority">
+
+                <option value="Normal">
+                    Normal
+                </option>
+
+                <option value="Urgent">
+                    Urgent
+                </option>
+
+            </select>
+
+
+            <label for="detailTechnicianName">
+                Technician
+            </label>
+
+            <input
+                type="text"
+                id="detailTechnicianName"
+                placeholder="Technician name">
+
+
+            <label for="detailExpectedCompletionDate">
+                Expected Completion Date
+            </label>
+
+            <input
+                type="date"
+                id="detailExpectedCompletionDate">
+
+
+            <label for="detailDeviceCondition">
+                Device Condition
+            </label>
+
+            <textarea
+                id="detailDeviceCondition"
+                rows="4"
+                placeholder="Describe the device condition..."></textarea>
+
+
+            <label for="detailTechnicianNotes">
+                Technician Notes
+            </label>
+
+            <textarea
+                id="detailTechnicianNotes"
+                rows="5"
+                placeholder="Enter technician notes..."></textarea>
+
+
+            <label class="repair-checkbox">
+
+                <input
+                    type="checkbox"
+                    id="detailCustomerApproval">
+
+                Customer has approved the repair
+
+            </label>
+
+
+            <div class="repair-modal-actions">
+
+                <button
+                    type="button"
+                    id="saveRepairDetails"
+                    class="primary-btn">
+
+                    💾 Save Repair Details
+
+                </button>
+
+                <button
+                    type="button"
+                    id="generateRepairInvoice"
+                    class="primary-btn">
+
+                    🧾 Generate Invoice
+
+                </button>
+
+                <button
+                    type="button"
+                    id="closeRepairModalButton"
+                    class="secondary-btn">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+.repair-modal {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 9999;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+}
+
+
+.repair-modal-content {
+
+    background: white;
+
+    width: 100%;
+
+    max-width: 850px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    position: relative;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0, 0, 0, 0.3);
+
+}
+
+
+.repair-modal-content h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 25px;
+
+}
+
+
+.repair-modal-close {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 18px;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+}
+
+
+.repair-details-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.repair-detail-card {
+
+    background: #f4f6f9;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+}
+
+
+.repair-detail-card span {
+
+    display: block;
+
+    font-size: 13px;
+
+    color: #666;
+
+    margin-bottom: 5px;
+
+}
+
+
+.repair-detail-card strong {
+
+    display: block;
+
+    font-size: 16px;
+
+}
+
+
+.repair-detail-section {
+
+    margin-top: 25px;
+
+    padding: 18px;
+
+    background: #f8f9fa;
+
+    border-radius: 10px;
+
+}
+
+
+.repair-detail-section h3 {
+
+    margin-top: 0;
+
+}
+
+
+.repair-detail-section p {
+
+    margin-bottom: 0;
+
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+
+}
+
+
+@media (max-width: 600px) {
+
+    .repair-details-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .repair-modal-content {
+
+        padding: 20px;
+
+    }
+
+}
+
+
+.repair-edit-section {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.repair-edit-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.repair-edit-section label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.repair-edit-section input,
+.repair-edit-section select,
+.repair-edit-section textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.repair-edit-section textarea {
+    resize: vertical;
+}
+
+.repair-checkbox {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.repair-checkbox input {
+    width: auto;
+}
+
+.repair-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.secondary-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #6c757d;
+    color: white;
+}
+
+@media (max-width: 600px) {
+
+    .repair-modal-actions {
+        flex-direction: column;
+    }
+
+    .repair-modal-actions button {
+        width: 100%;
+    }
+
+}
+
+
+
+</style>
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script
+        src="../js/repairManagement.js">
+    </script>
+
+</body>
+
+</html>

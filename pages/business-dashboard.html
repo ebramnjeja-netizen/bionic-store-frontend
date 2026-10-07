@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>Bionic Store | Business Dashboard</title>
+
+<link
+    rel="stylesheet"
+    href="../css/style.css">
+
+<style>
+
+    body {
+        background: #f5f7fb;
+    }
+
+    .business-dashboard {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .dashboard-header h1 {
+        margin: 0;
+    }
+
+    .dashboard-header p {
+        margin: 6px 0 0;
+        color: #666;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        background: #111827;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .dashboard-card {
+        background: white;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow:
+            0 4px 15px rgba(
+                0,
+                0,
+                0,
+                0.08
+            );
+    }
+
+    .dashboard-card .icon {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-card h3 {
+        margin: 0;
+        color: #555;
+        font-size: 15px;
+    }
+
+    .dashboard-card .value {
+        margin-top: 8px;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .section-grid {
+        display: grid;
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 20px;
+    }
+
+    .section-card {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow:
+            0 4px 15px rgba(
+                0,
+                0,
+                0,
+                0.08
+            );
+    }
+
+    .section-card h2 {
+        margin-top: 0;
+    }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .stat-row:last-child {
+        border-bottom: none;
+    }
+
+    .profit {
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px;
+        font-size: 18px;
+    }
+
+    .error {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+
+        .dashboard-grid {
+            grid-template-columns:
+                repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .dashboard-grid,
+        .section-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+    }
+
+
+    /* ========================================
+     FINANCIAL BREAKDOWN
+    ======================================== */
+
+        .financial-breakdown {
+         margin-top: 25px;
+         background: white;
+          border-radius: 14px;
+           padding: 25px;
+           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .financial-breakdown h2 {
+          margin-top: 0;
+           margin-bottom: 20px;
+        }
+
+        .breakdown-row {
+             display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+             gap: 15px;
+        }
+
+        .breakdown-box {
+             padding: 20px;
+               border-radius: 12px;
+              background: #f8fafc;
+        }
+
+        .breakdown-box h3 {
+             margin: 0 0 10px;
+              font-size: 16px;
+        }
+
+        .breakdown-box .breakdown-value {
+           font-size: 24px;
+          font-weight: 700;
+        }
+
+        .breakdown-box p {
+             margin: 6px 0 0;
+              color: #666;
+              font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+          .breakdown-row {
+             grid-template-columns: 1fr;
+         }
+
+        }
+
+
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="business-dashboard">
+
+
+<div class="dashboard-header">
+
+    <div>
+
+        <h1>
+            📊 Business Dashboard
+        </h1>
+
+        <p>
+            Bionic Store + Wi-Fi Business Overview
+        </p>
+
+    </div>
+
+
+    <a
+        href="../index.html"
+        class="back-btn">
+
+        ← Back to Store
+
+    </a>
+
+</div>
+
+
+<div
+    id="dashboardError"
+    class="error">
+</div>
+
+
+<div
+    id="loading"
+    class="loading">
+
+    Loading business data...
+
+</div>
+
+
+<div
+    id="dashboardContent"
+    style="display:none;">
+
+
+    <!-- TOP CARDS -->
+
+    <div class="dashboard-grid">
+
+
+        <div class="dashboard-card">
+
+            <div class="icon">
+                🛒
+            </div>
+
+            <h3>
+                Shop Revenue
+            </h3>
+
+            <div
+                class="value"
+                id="shopRevenue">
+
+                TZS 0
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="icon">
+                📶
+            </div>
+
+            <h3>
+                Wi-Fi Revenue
+            </h3>
+
+            <div
+                class="value"
+                id="wifiRevenue">
+
+                TZS 0
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="icon">
+                💰
+            </div>
+
+            <h3>
+                Total Revenue
+            </h3>
+
+            <div
+                class="value"
+                id="totalRevenue">
+
+                TZS 0
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card">
+
+            <div class="icon">
+                💸
+            </div>
+
+            <h3>
+                Total Expenses
+            </h3>
+
+            <div
+                class="value"
+                id="totalExpenses">
+
+                TZS 0
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SECOND SECTION -->
+
+    <div class="section-grid">
+
+
+        <div class="section-card">
+
+    <h2>🛒 Shop</h2>
+
+    <div class="stat-row">
+        <span>Orders</span>
+        <strong id="shopOrders">0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Revenue</span>
+        <strong id="shopRevenue2">TZS 0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Expenses</span>
+        <strong id="shopExpenses">TZS 0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Profit</span>
+        <strong id="shopProfit">TZS 0</strong>
+    </div>
+
+     <!-- ========================================
+     FINANCIAL BREAKDOWN
+======================================== -->
+
+<div class="financial-breakdown">
+
+    <h2>
+        💰 Financial Breakdown
+    </h2>
+
+    <div class="breakdown-row">
+
+        <div class="breakdown-box">
+
+            <h3>
+                🛒 Shop
+            </h3>
+
+            <div
+                class="breakdown-value"
+                id="breakdownShopProfit">
+
+                TZS 0
+
+            </div>
+
+            <p>
+                Revenue − Expenses
+            </p>
+
+        </div>
+
+
+        <div class="breakdown-box">
+
+            <h3>
+                📶 Wi-Fi
+            </h3>
+
+            <div
+                class="breakdown-value"
+                id="breakdownWifiProfit">
+
+                TZS 0
+
+            </div>
+
+            <p>
+                Revenue − Expenses
+            </p>
+
+        </div>
+
+
+        <div class="breakdown-box">
+
+            <h3>
+                🏦 Overall Business
+            </h3>
+
+            <div
+                class="breakdown-value"
+                id="breakdownBusinessProfit">
+
+                TZS 0
+
+            </div>
+
+            <p>
+                Total Revenue − Total Expenses
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+        <div class="section-card">
+
+    <h2>📶 Wi-Fi</h2>
+
+    <div class="stat-row">
+        <span>Vouchers Sold</span>
+        <strong id="wifiVouchers">0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Revenue</span>
+        <strong id="wifiRevenue2">TZS 0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Expenses</span>
+        <strong id="wifiExpenses">TZS 0</strong>
+    </div>
+
+    <div class="stat-row">
+        <span>Profit</span>
+        <strong id="wifiProfit">TZS 0</strong>
+    </div>
+
+</div>
+
+
+        <div class="section-card">
+
+            <h2>
+                📈 Net Profit
+            </h2>
+
+            <div
+                class="profit"
+                id="netProfit">
+
+                TZS 0
+
+            </div>
+
+            <div class="stat-row">
+
+                <span>
+                    Profit Margin
+                </span>
+
+                <strong id="profitMargin">
+                    0%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-card">
+
+            <h2>
+                💼 Business Summary
+            </h2>
+
+            <div class="stat-row">
+
+                <span>
+                    Total Revenue
+                </span>
+
+                <strong id="summaryRevenue">
+                    TZS 0
+                </strong>
+
+            </div>
+
+            <div class="stat-row">
+
+                <span>
+                    Total Expenses
+                </span>
+
+                <strong id="summaryExpenses">
+                    TZS 0
+                </strong>
+
+            </div>
+
+            <div class="stat-row">
+
+                <span>
+                    Net Profit
+                </span>
+
+                <strong id="summaryProfit">
+                    TZS 0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<script src="../js/business-dashboard.js"></script>
+
+</body>
+
+</html>

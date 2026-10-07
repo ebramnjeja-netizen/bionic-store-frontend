@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | POS</title>
+
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================
+         ADMIN SIDEBAR
+    ================================== -->
+
+    <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+    >
+
+        <!-- LOGO -->
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <strong>
+                    BIONIC STORE
+                </strong>
+
+                <span>
+                    ADMIN PANEL
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <div class="sidebar-section-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="sidebar-link"
+            >
+
+                <span>🏠</span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="pos.html"
+                class="sidebar-link active"
+            >
+
+                <span>🛒</span>
+
+                <span>
+                    POS
+                </span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="inventory.html"
+                class="sidebar-link"
+            >
+
+                <span>📦</span>
+
+                <span>
+                    Inventory
+                </span>
+
+            </a>
+
+
+            <a
+                href="orders.html"
+                class="sidebar-link"
+            >
+
+                <span>🧾</span>
+
+                <span>
+                    Sales
+                </span>
+
+            </a>
+
+
+            <a
+                href="customers.html"
+                class="sidebar-link"
+            >
+
+                <span>👥</span>
+
+                <span>
+                    Customers
+                </span>
+
+            </a>
+
+
+            <a
+                href="repairs.html"
+                class="sidebar-link"
+            >
+
+                <span>🔧</span>
+
+                <span>
+                    Repairs
+                </span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                REPORTING
+            </div>
+
+
+            <a
+                href="reports.html"
+                class="sidebar-link"
+            >
+
+                <span>📊</span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a
+                href="invoices.html"
+                class="sidebar-link"
+            >
+
+                <span>💳</span>
+
+                <span>
+                    Invoices
+                </span>
+
+            </a>
+
+
+            <a
+                href="stock-history.html"
+                class="sidebar-link"
+            >
+
+                <span>📜</span>
+
+                <span>
+                    Stock History
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+
+            <a
+                href="#"
+                class="sidebar-link"
+                onclick="openAdminSettings(event)"
+            >
+
+                <span>⚙️</span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="sidebar-link sidebar-logout"
+                onclick="adminLogout()"
+            >
+
+                <span>🚪</span>
+
+                <span>
+                    Logout
+                </span>
+
+            </button>
+
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================
+         MAIN POS AREA
+    ================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- MOBILE SIDEBAR BUTTON -->
+
+        <button
+            type="button"
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            onclick="toggleSidebar()"
+        >
+            ☰
+        </button>
+
+
+
+        <!-- =================================
+             POS CONTAINER
+        ================================== -->
+
+        <div class="pos-container">
+
+
+            <!-- =================================
+                 PRODUCTS
+            ================================== -->
+
+            <section class="pos-products">
+
+
+                <h1>
+                    Point of Sale
+                </h1>
+
+
+                <input
+                    type="text"
+                    id="productSearch"
+                    placeholder="🔍 Search products..."
+                >
+
+
+                <div
+                    id="productGrid"
+                    class="pos-product-grid"
+                ></div>
+
+
+            </section>
+
+
+
+            <!-- =================================
+                 CURRENT SALE
+            ================================== -->
+
+            <aside class="pos-cart">
+
+
+                <h2>
+                    🛒 Current Sale
+                </h2>
+
+
+
+                <!-- =========================
+                     CUSTOMER
+                ========================== -->
+
+                <div class="pos-customer-section">
+
+
+                    <h3>
+                        👤 Customer
+                    </h3>
+
+
+                    <select id="posCustomer">
+
+                        <option value="">
+                            Walk-in Customer
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        type="button"
+                        id="refreshCustomers"
+                        class="customer-refresh-btn"
+                    >
+
+                        🔄 Refresh Customers
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     CART ITEMS
+                ========================== -->
+
+                <div id="cartItems">
+
+                    <p class="empty-cart">
+
+                        No products added.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================
+                     SUMMARY
+                ========================== -->
+
+                <div class="pos-summary">
+
+
+                    <div>
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong id="subtotal">
+                            TZS 0
+                        </strong>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            Discount
+                        </span>
+
+
+                        <input
+                            type="number"
+                            id="discount"
+                            value="0"
+                            min="0"
+                        >
+
+                    </div>
+
+
+
+                    <div class="pos-total">
+
+                        <span>
+                            Total
+                        </span>
+
+
+                        <strong id="grandTotal">
+                            TZS 0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     PAYMENT
+                ========================== -->
+
+                <div class="payment-section">
+
+
+                    <h3>
+                        Payment Method
+                    </h3>
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="Cash"
+                            checked
+                        >
+
+                        💵 Cash
+
+                    </label>
+
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="M-Pesa"
+                        >
+
+                        📱 M-Pesa
+
+                    </label>
+
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="Airtel Money"
+                        >
+
+                        📱 Airtel Money
+
+                    </label>
+
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="Card"
+                        >
+
+                        💳 Card
+
+                    </label>
+
+
+
+                    <label>
+
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="Bank Transfer"
+                        >
+
+                        🏦 Bank Transfer
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     CASH
+                ========================== -->
+
+                <div class="cash-section">
+
+
+                    <label>
+                        Amount Received
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="amountReceived"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                    >
+
+
+                    <p>
+
+                        Change:
+
+                        <strong id="changeAmount">
+                            TZS 0
+                        </strong>
+
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     COMPLETE SALE
+                ========================== -->
+
+                <button
+                    type="button"
+                    id="completeSale"
+                    class="complete-sale-btn"
+                >
+
+                    ✅ Complete Sale
+
+                </button>
+
+
+            </aside>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =================================
+     POS JAVASCRIPT
+================================== -->
+
+<script src="../js/pos.js"></script>
+
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

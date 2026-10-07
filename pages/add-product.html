@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product | Bionic Store</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Add New Product</h1>
+
+    <form id="addProductForm">
+
+    <input id="name">
+    <input id="price">
+    <input id="category">
+    <textarea id="description"></textarea>
+    <input id="rating">
+    <input id="badge">
+    <input id="stock">
+
+    <input
+    type="file"
+    id="productImage"
+    accept="image/*">
+
+    <img
+    id="previewImage"
+    style="display:none;max-width:200px;">
+
+    <button type="submit">
+    Add Product
+    </button>
+
+    </form>
+
+</div>
+
+<script src="../js/addProduct.js"></script>
+
+</body>
+</html>

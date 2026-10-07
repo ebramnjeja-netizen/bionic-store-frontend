@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | Sales</title>
+
+   <link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================
+         ADMIN SIDEBAR
+    ================================== -->
+
+    <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+    >
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <strong>
+                    BIONIC STORE
+                </strong>
+
+                <span>
+                    ADMIN PANEL
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <div class="sidebar-section-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="sidebar-link"
+            >
+
+                <span>🏠</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a
+                href="pos.html"
+                class="sidebar-link"
+            >
+
+                <span>🛒</span>
+                <span>POS</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="inventory.html"
+                class="sidebar-link"
+            >
+
+                <span>📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            <a
+                href="orders.html"
+                class="sidebar-link active"
+            >
+
+                <span>🧾</span>
+                <span>Sales</span>
+
+            </a>
+
+
+            <a
+                href="customers.html"
+                class="sidebar-link"
+            >
+
+                <span>👥</span>
+                <span>Customers</span>
+
+            </a>
+
+
+            <a
+                href="repairs.html"
+                class="sidebar-link"
+            >
+
+                <span>🔧</span>
+                <span>Repairs</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                REPORTING
+            </div>
+
+
+            <a
+                href="reports.html"
+                class="sidebar-link"
+            >
+
+                <span>📊</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a
+                href="invoices.html"
+                class="sidebar-link"
+            >
+
+                <span>💳</span>
+                <span>Invoices</span>
+
+            </a>
+
+
+            <a
+                href="stock-history.html"
+                class="sidebar-link"
+            >
+
+                <span>📜</span>
+                <span>Stock History</span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- =================================
+             SIDEBAR BOTTOM
+        ================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <a
+                href="#"
+                class="sidebar-link"
+                onclick="openAdminSettings(event)"
+            >
+
+                <span>⚙️</span>
+                <span>Settings</span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="sidebar-link sidebar-logout"
+                onclick="adminLogout()"
+            >
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =================================
+         MAIN SALES AREA
+    ================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- MOBILE SIDEBAR BUTTON -->
+
+        <button
+            type="button"
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            onclick="toggleSidebar()"
+        >
+
+            ☰
+
+        </button>
+
+
+
+        <!-- =================================
+             SALES HEADER
+        ================================== -->
+
+        <section class="orders-header">
+
+
+            <div>
+
+                <h1>
+                    Sales Management
+                </h1>
+
+                <p>
+                    View and manage all Bionic Store sales.
+                </p>
+
+            </div>
+
+
+            <button
+                id="refreshOrders"
+            >
+
+                🔄 Refresh
+
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             FILTERS
+        ================================== -->
+
+        <section class="orders-filters">
+
+
+            <input
+                type="text"
+                id="orderSearch"
+                placeholder="🔍 Search order, customer..."
+            >
+
+
+            <select id="statusFilter">
+
+                <option value="">
+                    All Statuses
+                </option>
+
+                <option value="Processing">
+                    Processing
+                </option>
+
+                <option value="Paid">
+                    Paid
+                </option>
+
+                <option value="Completed">
+                    Completed
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Cancelled">
+                    Cancelled
+                </option>
+
+            </select>
+
+
+            <select id="paymentFilter">
+
+                <option value="">
+                    All Payments
+                </option>
+
+                <option value="Cash">
+                    Cash
+                </option>
+
+                <option value="M-Pesa">
+                    M-Pesa
+                </option>
+
+                <option value="Airtel Money">
+                    Airtel Money
+                </option>
+
+                <option value="Card">
+                    Card
+                </option>
+
+                <option value="Bank Transfer">
+                    Bank Transfer
+                </option>
+
+                <option value="Cash on Delivery">
+                    Cash on Delivery
+                </option>
+
+            </select>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             SUMMARY
+        ================================== -->
+
+        <section class="orders-summary">
+
+
+            <div class="summary-card">
+
+                <span>
+                    Total Sales
+                </span>
+
+                <strong id="totalOrders">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Revenue
+                </span>
+
+                <strong id="totalRevenue">
+                    $0.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Paid
+                </span>
+
+                <strong id="paidOrders">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Pending
+                </span>
+
+                <strong id="pendingOrders">
+                    0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             ORDERS TABLE
+        ================================== -->
+
+        <section class="orders-table-section">
+
+
+            <div
+                id="ordersMessage"
+                class="orders-message"
+            >
+
+                Loading sales...
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+
+                <table
+                    id="ordersTable"
+                    style="display:none;"
+                >
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Order
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Items
+                            </th>
+
+                            <th>
+                                Payment
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="ordersTableBody"
+                    >
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =================================
+     SALES JAVASCRIPT
+================================== -->
+
+<script src="../js/orders.js"></script>
+
+
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

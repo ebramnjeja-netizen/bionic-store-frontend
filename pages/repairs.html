@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | Repairs</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================
+         ADMIN SIDEBAR
+    ================================== -->
+
+    <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+    >
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <strong>
+                    BIONIC STORE
+                </strong>
+
+                <span>
+                    ADMIN PANEL
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <div class="sidebar-section-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="sidebar-link"
+            >
+
+                <span>🏠</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a
+                href="pos.html"
+                class="sidebar-link"
+            >
+
+                <span>🛒</span>
+                <span>POS</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="inventory.html"
+                class="sidebar-link"
+            >
+
+                <span>📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            <a
+                href="orders.html"
+                class="sidebar-link"
+            >
+
+                <span>🧾</span>
+                <span>Sales</span>
+
+            </a>
+
+
+            <a
+                href="customers.html"
+                class="sidebar-link"
+            >
+
+                <span>👥</span>
+                <span>Customers</span>
+
+            </a>
+
+
+            <a
+                href="repairs.html"
+                class="sidebar-link active"
+            >
+
+                <span>🔧</span>
+                <span>Repairs</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                REPORTING
+            </div>
+
+
+            <a
+                href="reports.html"
+                class="sidebar-link"
+            >
+
+                <span>📊</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a
+                href="invoices.html"
+                class="sidebar-link"
+            >
+
+                <span>💳</span>
+                <span>Invoices</span>
+
+            </a>
+
+
+            <a
+                href="stock-history.html"
+                class="sidebar-link"
+            >
+
+                <span>📜</span>
+                <span>Stock History</span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- =================================
+             SIDEBAR BOTTOM
+        ================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <a
+                href="#"
+                class="sidebar-link"
+                onclick="openAdminSettings(event)"
+            >
+
+                <span>⚙️</span>
+                <span>Settings</span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="sidebar-link sidebar-logout"
+                onclick="adminLogout()"
+            >
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =================================
+         MAIN REPAIR AREA
+    ================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- MOBILE SIDEBAR BUTTON -->
+
+        <button
+            type="button"
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            onclick="toggleSidebar()"
+        >
+
+            ☰
+
+        </button>
+
+
+
+        <!-- =================================
+             REPAIR FORM
+        ================================== -->
+
+        <div class="repair-card">
+
+
+            <h1>
+                Book a Device Repair
+            </h1>
+
+
+            <p>
+                We repair phones, tablets, laptops and accessories.
+                Fill in the form below and we'll contact you.
+            </p>
+
+
+            <form id="repairForm">
+
+
+                <label>
+                    Customer
+                </label>
+
+
+                <select
+                    id="customerId"
+                    required
+                >
+
+                    <option value="">
+                        Loading customers...
+                    </option>
+
+                </select>
+
+
+
+                <label>
+                    Device Type
+                </label>
+
+
+                <select
+                    id="deviceType"
+                    required
+                >
+
+                    <option value="">
+                        Select Device
+                    </option>
+
+                    <option>
+                        Phone
+                    </option>
+
+                    <option>
+                        Tablet
+                    </option>
+
+                    <option>
+                        Laptop
+                    </option>
+
+                    <option>
+                        Smart Watch
+                    </option>
+
+                    <option>
+                        Accessory
+                    </option>
+
+                </select>
+
+
+
+                <label>
+                    Brand
+                </label>
+
+
+                <input
+                    type="text"
+                    id="brand"
+                    required
+                >
+
+
+
+                <label>
+                    Model
+                </label>
+
+
+                <input
+                    type="text"
+                    id="model"
+                    required
+                >
+
+
+
+                <label>
+                    Serial Number
+                </label>
+
+
+                <input
+                    type="text"
+                    id="serialNumber"
+                >
+
+
+
+                <label>
+                    Describe the Problem
+                </label>
+
+
+                <textarea
+                    id="problem"
+                    rows="5"
+                    required
+                ></textarea>
+
+
+                <!-- ========================================
+     REPAIR PRIORITY
+======================================== -->
+
+<label for="priority">Priority</label>
+
+<select id="priority">
+
+    <option value="Normal">
+        Normal
+    </option>
+
+    <option value="Urgent">
+        Urgent
+    </option>
+
+</select>
+
+
+<!-- ========================================
+     DEVICE CONDITION
+======================================== -->
+
+<label for="deviceCondition">
+    Device Condition
+</label>
+
+<textarea
+    id="deviceCondition"
+    rows="3"
+    placeholder="Describe the condition of the device when received..."
+></textarea>
+
+
+<!-- ========================================
+     ESTIMATED COST
+======================================== -->
+
+<label for="estimatedCost">
+    Estimated Repair Cost (TZS)
+</label>
+
+<input
+    type="number"
+    id="estimatedCost"
+    min="0"
+    step="1"
+    value="0"
+    placeholder="e.g. 50000"
+>
+
+
+<!-- ========================================
+     AMOUNT PAID
+======================================== -->
+
+<label for="amountPaid">
+    Amount Paid (TZS)
+</label>
+
+<input
+    type="number"
+    id="amountPaid"
+    min="0"
+    step="1"
+    value="0"
+    placeholder="e.g. 20000"
+>
+
+
+<!-- ========================================
+     EXPECTED COMPLETION
+======================================== -->
+
+<label for="expectedCompletionDate">
+    Expected Completion Date
+</label>
+
+<input
+    type="date"
+    id="expectedCompletionDate"
+>
+
+
+<!-- ========================================
+     TECHNICIAN
+======================================== -->
+
+<label for="technicianName">
+    Technician Name
+</label>
+
+<input
+    type="text"
+    id="technicianName"
+    placeholder="Enter technician name"
+>
+
+
+<!-- ========================================
+     TECHNICIAN NOTES
+======================================== -->
+
+<label for="technicianNotes">
+    Technician Notes
+</label>
+
+<textarea
+    id="technicianNotes"
+    rows="4"
+    placeholder="Add technician notes..."
+></textarea>
+
+
+<!-- ========================================
+     CUSTOMER APPROVAL
+======================================== -->
+
+<label class="repair-checkbox">
+
+    <input
+        type="checkbox"
+        id="customerApproval"
+    >
+
+    Customer approved the estimated repair cost
+
+</label>
+
+
+
+                <label>
+                    Upload Device Photos
+                </label>
+
+
+                <input
+                    type="file"
+                    id="repairImages"
+                    multiple
+                    accept="image/*"
+                >
+
+
+                <div id="imagePreview"></div>
+
+
+
+                <button
+                    type="submit"
+                >
+
+                    Submit Repair Request
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =================================
+     REPAIR JAVASCRIPT
+================================== -->
+
+<script src="../js/repair.js"></script>
+
+
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

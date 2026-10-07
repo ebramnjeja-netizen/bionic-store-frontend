@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bionic Store | Customers</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================
+         ADMIN SIDEBAR
+    ================================== -->
+
+    <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+    >
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <strong>
+                    BIONIC STORE
+                </strong>
+
+                <span>
+                    ADMIN PANEL
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <div class="sidebar-section-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="sidebar-link"
+            >
+
+                <span>🏠</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a
+                href="pos.html"
+                class="sidebar-link"
+            >
+
+                <span>🛒</span>
+                <span>POS</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="inventory.html"
+                class="sidebar-link"
+            >
+
+                <span>📦</span>
+                <span>Inventory</span>
+
+            </a>
+
+
+            <a
+                href="orders.html"
+                class="sidebar-link"
+            >
+
+                <span>🧾</span>
+                <span>Sales</span>
+
+            </a>
+
+
+            <a
+                href="customers.html"
+                class="sidebar-link active"
+            >
+
+                <span>👥</span>
+                <span>Customers</span>
+
+            </a>
+
+
+            <a
+                href="repairs.html"
+                class="sidebar-link"
+            >
+
+                <span>🔧</span>
+                <span>Repairs</span>
+
+            </a>
+
+
+            <div class="sidebar-section-title">
+                REPORTING
+            </div>
+
+
+            <a
+                href="reports.html"
+                class="sidebar-link"
+            >
+
+                <span>📊</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a
+                href="invoices.html"
+                class="sidebar-link"
+            >
+
+                <span>💳</span>
+                <span>Invoices</span>
+
+            </a>
+
+
+            <a
+                href="stock-history.html"
+                class="sidebar-link"
+            >
+
+                <span>📜</span>
+                <span>Stock History</span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- =================================
+             SIDEBAR BOTTOM
+        ================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <a
+                href="#"
+                class="sidebar-link"
+                onclick="openAdminSettings(event)"
+            >
+
+                <span>⚙️</span>
+                <span>Settings</span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="sidebar-link sidebar-logout"
+                onclick="adminLogout()"
+            >
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =================================
+         MAIN CUSTOMER AREA
+    ================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- MOBILE SIDEBAR BUTTON -->
+
+        <button
+            type="button"
+            class="sidebar-toggle"
+            id="sidebarToggle"
+            onclick="toggleSidebar()"
+        >
+
+            ☰
+
+        </button>
+
+
+
+        <!-- =================================
+             CUSTOMER HEADER
+        ================================== -->
+
+        <div class="customer-header">
+
+
+            <div>
+
+                <h1>
+                    Customer Management
+                </h1>
+
+                <p>
+                    Manage Bionic Store customers,
+                    purchases and contact information.
+                </p>
+
+            </div>
+
+
+            <button
+                id="addCustomerBtn"
+                class="primary-btn"
+            >
+
+                + Add Customer
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             SEARCH
+        ================================== -->
+
+        <div class="customer-summary">
+
+    <div class="customer-summary-card">
+        <span>👥</span>
+        <div>
+            <small>Total Customers</small>
+            <strong id="customerTotal">0</strong>
+        </div>
+    </div>
+
+    <div class="customer-summary-card">
+        <span>🛒</span>
+        <div>
+            <small>Total Orders</small>
+            <strong id="customerOrdersTotal">0</strong>
+        </div>
+    </div>
+
+    <div class="customer-summary-card">
+        <span>💰</span>
+        <div>
+            <small>Total Purchases</small>
+            <strong id="customerPurchasesTotal">TZS 0</strong>
+        </div>
+    </div>
+
+    <div class="customer-summary-card">
+        <span>⭐</span>
+        <div>
+            <small>Active Customers</small>
+            <strong id="activeCustomerTotal">0</strong>
+        </div>
+    </div>
+
+</div>
+
+
+        <div class="customer-tools">
+
+    <input
+        type="search"
+        id="customerSearch"
+        placeholder="🔍 Search name, phone or email..."
+    >
+
+    <select id="customerOrderFilter">
+        <option value="all">All Customers</option>
+        <option value="active">With Orders</option>
+        <option value="new">No Orders Yet</option>
+    </select>
+
+</div>
+
+
+
+        <!-- =================================
+             CUSTOMER TABLE
+        ================================== -->
+
+        <div class="customer-table-container">
+
+
+            <table id="customerTable">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Orders
+                        </th>
+
+                        <th>
+                            Total Purchases
+                        </th>
+
+                        <th>
+                            Last Purchase
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="customerTableBody">
+
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            style="text-align:center;"
+                        >
+
+                            Loading customers...
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =================================
+     CUSTOMER MODAL
+================================== -->
+
+<div
+    id="customerModal"
+    class="customer-modal"
+>
+
+
+    <div class="customer-modal-content">
+
+
+        <button
+            type="button"
+            id="closeCustomerModal"
+            class="close-modal"
+        >
+
+            ×
+
+        </button>
+
+
+        <h2 id="customerModalTitle">
+            Add Customer
+        </h2>
+
+
+        <form id="customerForm">
+
+
+            <input
+                type="hidden"
+                id="customerId"
+            >
+
+
+            <label>
+                Customer Name
+            </label>
+
+
+            <input
+                type="text"
+                id="customerName"
+                required
+            >
+
+
+            <label>
+                Phone Number
+            </label>
+
+
+            <input
+                type="tel"
+                id="customerPhone"
+                required
+            >
+
+
+            <label>
+                Email
+            </label>
+
+
+            <input
+                type="email"
+                id="customerEmail"
+            >
+
+
+            <label>
+                Address
+            </label>
+
+
+            <input
+                type="text"
+                id="customerAddress"
+            >
+
+
+            <label>
+                Notes
+            </label>
+
+
+            <textarea
+                id="customerNotes"
+                rows="4"
+            ></textarea>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+
+                Save Customer
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =================================
+     CUSTOMER JAVASCRIPT
+================================== -->
+
+<script src="../js/customers.js"></script>
+
+
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

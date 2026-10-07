@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Shop Expenses</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css">
+
+        <style>
+
+.expenses-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.expenses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.expense-card,
+.expense-total-card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+#expenseForm {
+    display: grid;
+    gap: 15px;
+}
+
+#expenseForm input,
+#expenseForm select,
+#expenseForm textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#expenseForm textarea {
+    min-height: 90px;
+}
+
+#expenseForm button {
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.expense-total {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.expense-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.expense-row button {
+    margin-left: 15px;
+    border: none;
+    background: #fee2e2;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.back-btn {
+    text-decoration: none;
+    background: #111827;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+
+    .expenses-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .expense-row {
+        flex-direction: column;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="expenses-container">
+
+    <div class="expenses-header">
+
+        <div>
+
+            <h1>💸 Shop Expenses</h1>
+
+            <p>
+                Manage Bionic Store shop expenses
+            </p>
+
+        </div>
+
+        <a
+            href="../index.html"
+            class="back-btn">
+
+            ← Back to Store
+
+        </a>
+
+    </div>
+
+
+    <!-- ADD EXPENSE -->
+
+    <div class="expense-card">
+
+        <h2>➕ Add Shop Expense</h2>
+
+        <form id="expenseForm">
+
+            <input
+                type="text"
+                id="description"
+                placeholder="Expense description"
+                required>
+
+
+            <select id="category">
+
+                <option value="Rent">
+                    Rent
+                </option>
+
+                <option value="Electricity">
+                    Electricity
+                </option>
+
+                <option value="Internet">
+                    Internet
+                </option>
+
+                <option value="Transport">
+                    Transport
+                </option>
+
+                <option value="Salary">
+                    Salary
+                </option>
+
+                <option value="Stock">
+                    Stock
+                </option>
+
+                <option value="Maintenance">
+                    Maintenance
+                </option>
+
+                <option value="Equipment">
+                    Equipment
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <input
+                type="number"
+                id="amount"
+                placeholder="Amount (TZS)"
+                min="0"
+                required>
+
+
+            <input
+                type="date"
+                id="expenseDate">
+
+
+            <textarea
+                id="notes"
+                placeholder="Notes (optional)">
+            </textarea>
+
+
+            <button type="submit">
+
+                💾 Save Expense
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- TOTAL -->
+
+    <div class="expense-total-card">
+
+        <h2>Total Shop Expenses</h2>
+
+        <div
+            id="totalExpenses"
+            class="expense-total">
+
+            TZS 0
+
+        </div>
+
+    </div>
+
+
+    <!-- EXPENSE LIST -->
+
+    <div class="expense-card">
+
+        <h2>📋 Expense History</h2>
+
+        <div id="expenseList">
+
+            Loading expenses...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../js/expenses.js"></script>
+
+</body>
+
+</html>

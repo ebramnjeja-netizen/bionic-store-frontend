@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Invoice | Bionic Store</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- =================================
+         ADMIN SIDEBAR
+    ================================== -->
+
+    <aside
+        class="admin-sidebar"
+        id="adminSidebar"
+    >
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <strong>
+                    BIONIC STORE
+                </strong>
+
+                <span>
+                    ADMIN PANEL
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+
+            <div class="sidebar-section-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="sidebar-link"
+            >
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="pos.html"
+                class="sidebar-link"
+            >
+                <span>🛒</span>
+                <span>POS</span>
+            </a>
+
+
+            <div class="sidebar-section-title">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="inventory.html"
+                class="sidebar-link"
+            >
+                <span>📦</span>
+                <span>Inventory</span>
+            </a>
+
+
+            <a
+                href="orders.html"
+                class="sidebar-link"
+            >
+                <span>🧾</span>
+                <span>Sales</span>
+            </a>
+
+
+            <a
+                href="customers.html"
+                class="sidebar-link"
+            >
+                <span>👥</span>
+                <span>Customers</span>
+            </a>
+
+
+            <a
+                href="repairs.html"
+                class="sidebar-link"
+            >
+                <span>🔧</span>
+                <span>Repairs</span>
+            </a>
+
+
+            <div class="sidebar-section-title">
+                REPORTING
+            </div>
+
+
+            <a
+                href="reports.html"
+                class="sidebar-link"
+            >
+                <span>📊</span>
+                <span>Reports</span>
+            </a>
+
+
+            <a
+                href="invoices.html"
+                class="sidebar-link active"
+            >
+                <span>💳</span>
+                <span>Invoices</span>
+            </a>
+
+
+            <a
+                href="stock-history.html"
+                class="sidebar-link"
+            >
+                <span>📜</span>
+                <span>Stock History</span>
+            </a>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+
+            <a
+                href="#"
+                class="sidebar-link"
+                onclick="openAdminSettings(event)"
+            >
+
+                <span>⚙️</span>
+                <span>Settings</span>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="sidebar-link sidebar-logout"
+                onclick="adminLogout()"
+            >
+
+                <span>🚪</span>
+                <span>Logout</span>
+
+            </button>
+
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =================================
+         MAIN INVOICE AREA
+    ================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- MOBILE SIDEBAR BUTTON -->
+
+        <button
+            type="button"
+            class="sidebar-toggle"
+            onclick="toggleSidebar()"
+        >
+
+            ☰
+
+        </button>
+
+
+
+        <!-- =================================
+             INVOICE
+        ================================== -->
+
+        <div class="invoice-container">
+
+
+            <!-- HEADER -->
+
+            <div class="invoice-header">
+
+                <h1>
+                    🔧 Bionic Store
+                </h1>
+
+                <p>
+                    Phones • Accessories • Repairs
+                </p>
+
+                <h2>
+                    INVOICE
+                </h2>
+
+            </div>
+
+
+
+            <!-- INVOICE INFORMATION -->
+
+            <div class="invoice-info">
+
+
+                <div>
+
+                    <p>
+
+                        <strong>
+                            Invoice No:
+                        </strong>
+
+                        <span id="invoiceNumber">
+                            -
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Date:
+                        </strong>
+
+                        <span id="invoiceDate">
+                            -
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <p>
+
+                        <strong>
+                            Customer:
+                        </strong>
+
+                        <span id="customerName">
+                            Walk-in Customer
+                        </span>
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Phone:
+                        </strong>
+
+                        <span id="customerPhone">
+                            -
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- PRODUCTS -->
+
+            <table id="invoiceTable">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Qty
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="invoiceProducts">
+
+                </tbody>
+
+
+            </table>
+
+
+
+            <!-- TOTALS -->
+
+            <div class="invoice-totals">
+
+
+                <p>
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="invoiceSubtotal">
+                        TZS 0.00
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    <span>
+                        Discount
+                    </span>
+
+                    <strong id="invoiceDiscount">
+                        TZS 0.00
+                    </strong>
+
+                </p>
+
+
+                <p class="grand-total">
+
+                    <span>
+                        Grand Total
+                    </span>
+
+                    <strong id="grandTotal">
+                        TZS 0.00
+                    </strong>
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- PAYMENT INFORMATION -->
+
+            <div class="payment-details">
+
+
+                <h3>
+                    Payment Information
+                </h3>
+
+
+                <p>
+
+                    <strong>
+                        Payment Method:
+                    </strong>
+
+                    <span id="paymentMethod">
+                        Cash
+                    </span>
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Amount Received:
+                    </strong>
+
+                    <span id="amountReceived">
+                        TZS 0.00
+                    </span>
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Change:
+                    </strong>
+
+                    <span id="changeAmount">
+                        TZS 0.00
+                    </span>
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- FOOTER -->
+
+            <div class="invoice-footer">
+
+
+                <p>
+                    Thank you for shopping with Bionic Store.
+                </p>
+
+
+                <p>
+                    Phones • Accessories • Repairs
+                </p>
+
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="invoice-actions">
+
+
+                <button
+                    type="button"
+                    onclick="window.print()"
+                >
+
+                    🖨 Print Invoice
+
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="window.close()"
+                >
+
+                    ✖ Close
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+
+<script src="../js/invoice.js"></script>
+
+</body>
+
+
+
+</html>

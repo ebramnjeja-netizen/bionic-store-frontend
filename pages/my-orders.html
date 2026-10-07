@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders | Bionic Store</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="customer-orders-header">
+
+    
+
+    <div>
+
+        <h1>📦 My Orders</h1>
+
+        <p>
+            Track and manage your Bionic Store orders.
+        </p>
+
+    </div>
+
+
+
+    <a
+        href="../index.html"
+        class="back-home-btn"
+    >
+        ← Back to Store
+    </a>
+
+</header>
+
+
+
+<main class="customer-orders-container">
+
+
+    <!-- LOGIN MESSAGE -->
+
+    <div
+        id="ordersLoginMessage"
+        class="customer-orders-message"
+    >
+
+        🔐 Please login to view your orders.
+
+    </div>
+
+    
+
+
+    <!-- ORDERS AREA -->
+
+    <section
+        id="customerOrdersSection"
+        style="display:none;"
+    >
+
+
+        <div class="customer-orders-topbar">
+
+            <h2>
+                Your Orders
+            </h2>
+
+
+            <button
+                type="button"
+                id="refreshCustomerOrders"
+            >
+                🔄 Refresh
+            </button>
+
+        </div>
+
+
+
+        <div
+            id="customerOrdersMessage"
+            class="customer-orders-message"
+        >
+            Loading your orders...
+        </div>
+
+
+
+        <div
+            id="customerOrdersList"
+            class="customer-orders-list"
+        ></div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script src="../js/my-orders.js"></script>
+
+
+</body>
+
+</html>

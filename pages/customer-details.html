@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Customer Details</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        👤 Bionic Store Customer
+    </div>
+
+    <nav>
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="customers.html">
+            Customers
+        </a>
+
+        <a href="pos.html">
+            POS
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="customer-details-page">
+
+    <div class="customer-details-header">
+
+        <a href="customers.html">
+            ← Back to Customers
+        </a>
+
+        <button
+            id="editCustomerBtn"
+            class="primary-btn">
+
+            ✏️ Edit Customer
+
+        </button>
+
+    </div>
+
+
+    <!-- CUSTOMER PROFILE -->
+
+    <section class="customer-profile-card">
+
+        <div class="customer-avatar">
+            👤
+        </div>
+
+        <div>
+
+            <h1 id="customerName">
+                Loading...
+            </h1>
+
+            <p>
+                📞
+                <span id="customerPhone">-</span>
+            </p>
+
+            <p>
+                📧
+                <span id="customerEmail">-</span>
+            </p>
+
+            <p>
+                📍
+                <span id="customerAddress">-</span>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOMER STATISTICS -->
+
+    <section class="customer-stat-grid">
+
+        <div class="customer-stat-card">
+
+            <span>
+                🧾
+            </span>
+
+            <h3>
+                Total Orders
+            </h3>
+
+            <strong id="totalOrders">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat-card">
+
+            <span>
+                💰
+            </span>
+
+            <h3>
+                Total Purchases
+            </h3>
+
+            <strong id="totalPurchases">
+                TZS 0
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat-card">
+
+            <span>
+                🔧
+            </span>
+
+            <h3>
+                Repairs
+            </h3>
+
+            <strong id="totalRepairs">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="customer-stat-card">
+
+            <span>
+                📅
+            </span>
+
+            <h3>
+                Last Purchase
+            </h3>
+
+            <strong id="lastPurchase">
+                None
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="customer-activity-section">
+
+    <h2>
+        📊 Customer Activity
+    </h2>
+
+    <div class="customer-activity-grid">
+
+        <div class="customer-activity-card">
+            <span>💵</span>
+            <small>Average Order</small>
+            <strong id="averageOrderValue">TZS 0</strong>
+        </div>
+
+        <div class="customer-activity-card">
+            <span>🏆</span>
+            <small>Highest Order</small>
+            <strong id="highestOrderValue">TZS 0</strong>
+        </div>
+
+        <div class="customer-activity-card">
+            <span>🛍️</span>
+            <small>Items Purchased</small>
+            <strong id="totalItemsPurchased">0</strong>
+        </div>
+
+        <div class="customer-activity-card">
+            <span>📅</span>
+            <small>Customer Since</small>
+            <strong id="customerSince">-</strong>
+        </div>
+
+        <div class="customer-activity-card">
+            <span>🔄</span>
+            <small>Purchase Frequency</small>
+            <strong id="purchaseFrequency">-</strong>
+        </div>
+
+        <div class="customer-activity-card">
+            <span>💳</span>
+            <small>Payment Methods</small>
+            <strong id="paymentMethods">-</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="customer-product-section">
+
+    <h2>
+        🛍️ Product Purchase Breakdown
+    </h2>
+
+    <div class="customer-table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total Spent</th>
+                </tr>
+            </thead>
+
+            <tbody id="productPurchaseBreakdown">
+
+                <tr>
+                    <td
+                        colspan="3"
+                        style="text-align:center;">
+                        Loading...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<section class="customer-value-section">
+
+    <h2>
+        ⭐ Customer Loyalty & Value
+    </h2>
+
+    <div class="customer-value-grid">
+
+        <div class="customer-value-card">
+            <span>💎</span>
+            <small>Customer Value</small>
+            <strong id="customerValue">TZS 0</strong>
+        </div>
+
+        <div class="customer-value-card">
+            <span>🔥</span>
+            <small>Most Purchased</small>
+            <strong id="mostPurchasedProduct">-</strong>
+        </div>
+
+        <div class="customer-value-card">
+            <span>💳</span>
+            <small>Preferred Payment</small>
+            <strong id="preferredPayment">-</strong>
+        </div>
+
+        <div class="customer-value-card">
+            <span>🏷️</span>
+            <small>Customer Segment</small>
+            <strong id="customerSegment">New Customer</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="customer-spending-section">
+
+    <h2>
+        📈 Spending Trend
+    </h2>
+
+    <div class="customer-chart-card">
+
+        <canvas id="customerSpendingChart"></canvas>
+
+    </div>
+
+</section>
+
+
+
+
+    <!-- PURCHASE HISTORY -->
+
+    <section class="customer-history-section">
+
+        <h2>
+            🧾 Purchase History
+        </h2>
+
+        <div class="customer-table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Items
+                        </th>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                              Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="purchaseHistory">
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            style="text-align:center;">
+
+                            Loading...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- REPAIR HISTORY -->
+
+    <section class="customer-history-section">
+
+        <h2>
+            🔧 Repair History
+        </h2>
+
+        <div class="customer-table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Device
+                        </th>
+
+                        <th>
+                            Brand
+                        </th>
+
+                        <th>
+                            Model
+                        </th>
+
+                        <th>
+                            Problem
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="repairHistory">
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            style="text-align:center;">
+
+                            Loading...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOTES -->
+
+    <section class="customer-notes-card">
+
+        <h2>
+            📝 Customer Notes
+        </h2>
+
+        <p id="customerNotes">
+            No notes.
+        </p>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/customer-details.js"></script>
+
+
+</body>
+
+</html>

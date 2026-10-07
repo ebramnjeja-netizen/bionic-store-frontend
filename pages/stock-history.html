@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Stock History | Bionic Store</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+
+<!-- =================================
+     ADMIN SIDEBAR
+================================== -->
+
+<aside
+    class="admin-sidebar"
+    id="adminSidebar"
+>
+
+    <div class="sidebar-logo">
+
+        <div class="sidebar-logo-icon">
+            🧾
+        </div>
+
+        <div>
+
+            <strong>
+                BIONIC STORE
+            </strong>
+
+            <span>
+                ADMIN PANEL
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+
+        <div class="sidebar-section-title">
+            MAIN
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="sidebar-link"
+        >
+            <span>🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="pos.html"
+            class="sidebar-link"
+        >
+            <span>🛒</span>
+            <span>POS</span>
+        </a>
+
+
+        <div class="sidebar-section-title">
+            MANAGEMENT
+        </div>
+
+
+        <a
+            href="inventory.html"
+            class="sidebar-link"
+        >
+            <span>📦</span>
+            <span>Inventory</span>
+        </a>
+
+
+        <a
+            href="orders.html"
+            class="sidebar-link"
+        >
+            <span>🧾</span>
+            <span>Sales</span>
+        </a>
+
+
+        <a
+            href="customers.html"
+            class="sidebar-link"
+        >
+            <span>👥</span>
+            <span>Customers</span>
+        </a>
+
+
+        <a
+            href="repairs.html"
+            class="sidebar-link"
+        >
+            <span>🔧</span>
+            <span>Repairs</span>
+        </a>
+
+
+        <div class="sidebar-section-title">
+            REPORTING
+        </div>
+
+
+        <a
+            href="reports.html"
+            class="sidebar-link"
+        >
+            <span>📊</span>
+            <span>Reports</span>
+        </a>
+
+
+        <a
+            href="invoices.html"
+            class="sidebar-link"
+        >
+            <span>💳</span>
+            <span>Invoices</span>
+        </a>
+
+
+        <a
+            href="stock-history.html"
+            class="sidebar-link active"
+        >
+            <span>📜</span>
+            <span>Stock History</span>
+        </a>
+
+
+    </nav>
+
+
+    <!-- =================================
+         SIDEBAR BOTTOM
+    ================================== -->
+
+    <div class="sidebar-bottom">
+
+
+        <a
+            href="#"
+            class="sidebar-link"
+            onclick="openAdminSettings(event)"
+        >
+            <span>⚙️</span>
+            <span>Settings</span>
+        </a>
+
+
+        <button
+            type="button"
+            class="sidebar-link sidebar-logout"
+            onclick="adminLogout()"
+        >
+            <span>🚪</span>
+            <span>Logout</span>
+        </button>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =================================
+     MAIN CONTENT
+================================== -->
+
+<main class="admin-main">
+
+
+    <!-- MOBILE SIDEBAR BUTTON -->
+
+    <button
+        type="button"
+        class="sidebar-toggle"
+        onclick="toggleSidebar()"
+    >
+
+        ☰
+
+    </button>
+
+
+
+    <!-- =================================
+         STOCK HISTORY
+    ================================== -->
+
+    <div class="container">
+
+
+        <h1>
+            Stock History
+        </h1>
+
+        <div class="stock-history-summary">
+
+    <div class="history-summary-card">
+        <span>📥</span>
+        <div>
+            <small>Stock In</small>
+            <strong id="stockInTotal">0</strong>
+        </div>
+    </div>
+
+    <div class="history-summary-card">
+        <span>📤</span>
+        <div>
+            <small>Stock Out</small>
+            <strong id="stockOutTotal">0</strong>
+        </div>
+    </div>
+
+    <div class="history-summary-card">
+        <span>✏️</span>
+        <div>
+            <small>Manual Updates</small>
+            <strong id="manualUpdateTotal">0</strong>
+        </div>
+    </div>
+
+    <div class="history-summary-card">
+        <span>📋</span>
+        <div>
+            <small>Total Records</small>
+            <strong id="historyRecordTotal">0</strong>
+        </div>
+    </div>
+
+</div>
+
+
+        <div class="stock-history-filters">
+
+    <input
+        type="text"
+        id="searchHistory"
+        placeholder="🔍 Search product..."
+    >
+
+    <select id="historyActionFilter">
+        <option value="all">All Actions</option>
+        <option value="Stock In">📥 Stock In</option>
+        <option value="Stock Out">📤 Stock Out</option>
+        <option value="Manual Update">✏️ Manual Update</option>
+    </select>
+
+    <input
+        type="date"
+        id="historyStartDate"
+    >
+
+    <input
+        type="date"
+        id="historyEndDate"
+    >
+
+</div>
+
+
+<div class="stock-history-actions">
+
+    <button
+        type="button"
+        onclick="printStockHistory()"
+    >
+        🖨️ Print
+    </button>
+
+    <button
+        type="button"
+        onclick="exportStockHistoryCSV()"
+    >
+        📥 Export CSV
+    </button>
+
+</div>
+
+        <table id="historyTable">
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                    <th>
+                        Previous
+                    </th>
+
+                    <th>
+                        New
+                    </th>
+
+                    <th>
+                        Change
+                    </th>
+
+                    <th>
+                        User
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</main>
+
+
+</div>
+
+<!-- =================================
+     STOCK HISTORY JAVASCRIPT
+================================== -->
+
+<script src="../js/stockHistory.js"></script>
+
+<!-- =================================
+     SIDEBAR FUNCTIONS
+================================== -->
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "adminSidebar"
+        );
+
+    if (!sidebar) {
+        return;
+    }
+
+    sidebar.classList.toggle(
+        "open"
+    );
+
+}
+
+
+function openAdminSettings(event) {
+
+    event.preventDefault();
+
+    alert(
+        "⚙️ Admin Settings will be available in the next upgrade."
+    );
+
+}
+
+
+function adminLogout() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "user"
+    );
+
+
+    window.location.href =
+        "../index.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

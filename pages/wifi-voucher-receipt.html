@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Wi-Fi Voucher Receipt</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css">
+
+    <style>
+
+        body {
+            background: #f4f6f8;
+        }
+
+        .voucher-receipt-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .voucher-receipt {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.10);
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-header h1 {
+            margin: 0;
+            color: #007bff;
+        }
+
+        .receipt-header p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .voucher-code-box {
+            text-align: center;
+            background: #f0f7ff;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .voucher-code {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #111;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .receipt-row span:first-child {
+            color: #666;
+        }
+
+        .receipt-row span:last-child {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .receipt-total {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .receipt-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .receipt-actions button {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .back-btn {
+            background: #e5e7eb;
+            color: #111;
+        }
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .voucher-receipt-container {
+                margin: 0;
+                padding: 0;
+                max-width: none;
+            }
+
+            .voucher-receipt {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .receipt-actions {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="voucher-receipt-container">
+
+    <div class="voucher-receipt">
+
+        <div class="receipt-header">
+
+            <h1>📶 BIONIC STORE</h1>
+
+            <p>Wi-Fi Voucher Receipt</p>
+
+            <p id="receiptDate">-</p>
+
+        </div>
+
+
+        <div class="voucher-code-box">
+
+            <div>
+                Wi-Fi Voucher
+            </div>
+
+            <div
+                id="voucherCode"
+                class="voucher-code">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Package
+            </span>
+
+            <span id="packageName">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Duration
+            </span>
+
+            <span id="duration">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Customer
+            </span>
+
+            <span id="customerName">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Phone
+            </span>
+
+            <span id="customerPhone">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Payment Method
+            </span>
+
+            <span id="paymentMethod">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Price
+            </span>
+
+            <span id="price">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row">
+
+            <span>
+                Amount Received
+            </span>
+
+            <span id="amountReceived">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="receipt-row receipt-total">
+
+            <span>
+                Change
+            </span>
+
+            <span id="changeAmount">
+                0
+            </span>
+
+        </div>
+
+
+        <div class="receipt-actions">
+
+            <button
+                type="button"
+                class="print-btn"
+                onclick="window.print()">
+
+                🖨️ Print Receipt
+
+            </button>
+
+
+            <button
+                type="button"
+                class="back-btn"
+                onclick="goBackToVouchers()">
+
+                🔙 Voucher Inventory
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function loadVoucherReceipt() {
+
+    const stored =
+        localStorage.getItem(
+            "wifiVoucherReceipt"
+        );
+
+    if (!stored) {
+
+        alert(
+            "No voucher receipt found."
+        );
+
+        window.location.href =
+            "wifi-vouchers.html";
+
+        return;
+
+    }
+
+    let receipt;
+
+    try {
+
+        receipt =
+            JSON.parse(stored);
+
+    } catch (error) {
+
+        console.error(
+            "Receipt data error:",
+            error
+        );
+
+        alert(
+            "Invalid voucher receipt."
+        );
+
+        window.location.href =
+            "wifi-vouchers.html";
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "voucherCode"
+    ).textContent =
+        receipt.code || "-";
+
+
+    document.getElementById(
+        "packageName"
+    ).textContent =
+        receipt.packageName || "-";
+
+
+    document.getElementById(
+        "duration"
+    ).textContent =
+        `${receipt.duration || 0} ${receipt.durationUnit || ""}`;
+
+
+    document.getElementById(
+        "customerName"
+    ).textContent =
+        receipt.customerName ||
+        "Walk-in Customer";
+
+
+    document.getElementById(
+        "customerPhone"
+    ).textContent =
+        receipt.customerPhone ||
+        "-";
+
+
+    document.getElementById(
+        "paymentMethod"
+    ).textContent =
+        receipt.paymentMethod ||
+        "Cash";
+
+
+    document.getElementById(
+        "price"
+    ).textContent =
+        Number(
+            receipt.price || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "amountReceived"
+    ).textContent =
+        Number(
+            receipt.amountReceived || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "changeAmount"
+    ).textContent =
+        Number(
+            receipt.changeAmount || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "receiptDate"
+    ).textContent =
+        receipt.createdAt
+            ? new Date(
+                receipt.createdAt
+            ).toLocaleString()
+            : new Date().toLocaleString();
+
+}
+
+
+function goBackToVouchers() {
+
+    window.location.href =
+        "wifi-vouchers.html";
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadVoucherReceipt
+);
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bionic Store | Wi-Fi Vouchers</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css">
+
+    <style>
+
+        .wifi-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .wifi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .wifi-header h1 {
+            margin: 0;
+        }
+
+        .wifi-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .wifi-form {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .wifi-form input,
+        .wifi-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .wifi-form button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .wifi-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .wifi-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .wifi-table th,
+        .wifi-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .voucher-code {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .status-available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-sold {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .status-active {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .status-expired {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .wifi-message {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+
+        /* =====================================
+           SELL VOUCHER MODAL
+        ===================================== */
+
+        .wifi-modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0, 0, 0, 0.55);
+
+            z-index: 9999;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+        }
+
+
+        .wifi-modal-content {
+
+            width: 100%;
+
+            max-width: 550px;
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 40px
+                rgba(0,0,0,0.25);
+
+        }
+
+
+        .wifi-modal-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .wifi-modal-header h2 {
+
+            margin: 0;
+
+        }
+
+
+        .wifi-close {
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+        }
+
+
+        .voucher-summary {
+
+            background: #f5f7fa;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .voucher-summary-row {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .voucher-summary-row:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .sell-form {
+
+            display: grid;
+
+            gap: 15px;
+
+        }
+
+
+        .sell-form label {
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+
+            display: block;
+
+        }
+
+
+        .sell-form input,
+
+        .sell-form select {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+        }
+
+
+        .payment-buttons {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+        }
+
+
+        .payment-button {
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .payment-button.selected {
+
+            background: #007bff;
+
+            color: white;
+
+            border-color: #007bff;
+
+        }
+
+
+        .change-box {
+
+            background: #ecfdf5;
+
+            border: 1px solid #a7f3d0;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+        }
+
+
+        .change-box strong {
+
+            display: block;
+
+            font-size: 24px;
+
+            color: #047857;
+
+            margin-top: 5px;
+
+        }
+
+
+        .sell-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 5px;
+
+        }
+
+
+        .sell-actions button {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .cancel-sale {
+
+            background: #e5e7eb;
+
+            color: #111827;
+
+        }
+
+
+        .confirm-sale {
+
+            background: #16a34a;
+
+            color: white;
+
+        }
+
+
+        .sell-voucher-button {
+
+            background: #16a34a;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .delete-voucher-button {
+
+            background: #dc2626;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .payment-buttons {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .sell-actions {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+        /* ========================================
+   WIFI STATUS DASHBOARD
+======================================== */
+
+.wifi-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(170px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.wifi-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-left: 5px solid #ddd;
+}
+
+.wifi-stat-icon {
+    font-size: 30px;
+}
+
+.wifi-stat-card h3 {
+    margin: 0 0 5px;
+    font-size: 15px;
+}
+
+.wifi-stat-card strong {
+    font-size: 28px;
+}
+
+.wifi-stat-card.available {
+    border-left-color: #16a34a;
+}
+
+.wifi-stat-card.sold {
+    border-left-color: #d97706;
+}
+
+.wifi-stat-card.active {
+    border-left-color: #2563eb;
+}
+
+.wifi-stat-card.expired {
+    border-left-color: #dc2626;
+}
+
+.wifi-stat-card.cancelled {
+    border-left-color: #6b7280;
+}
+
+/* ========================================
+   WIFI REVENUE DASHBOARD
+======================================== */
+
+.wifi-revenue-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.wifi-revenue-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.wifi-revenue-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(190px, 1fr));
+    gap: 15px;
+}
+
+.revenue-box {
+    background: #f8fafc;
+    padding: 18px;
+    border-radius: 10px;
+    border-left: 4px solid #007bff;
+}
+
+.revenue-box span {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.revenue-box strong {
+    display: block;
+    font-size: 22px;
+    color: #111827;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="wifi-container">
+
+    <!-- WIFI STATUS DASHBOARD -->
+
+<div class="wifi-stats">
+
+    <div class="wifi-stat-card available">
+        <div class="wifi-stat-icon">🟢</div>
+        <div>
+            <h3>Available</h3>
+            <strong id="availableCount">0</strong>
+        </div>
+    </div>
+
+    <div class="wifi-stat-card sold">
+        <div class="wifi-stat-icon">💰</div>
+        <div>
+            <h3>Sold</h3>
+            <strong id="soldCount">0</strong>
+        </div>
+    </div>
+
+    <div class="wifi-stat-card active">
+        <div class="wifi-stat-icon">📶</div>
+        <div>
+            <h3>Active</h3>
+            <strong id="activeCount">0</strong>
+        </div>
+    </div>
+
+    <div class="wifi-stat-card expired">
+        <div class="wifi-stat-icon">❌</div>
+        <div>
+            <h3>Expired</h3>
+            <strong id="expiredCount">0</strong>
+        </div>
+    </div>
+
+    <div class="wifi-stat-card cancelled">
+        <div class="wifi-stat-icon">🚫</div>
+        <div>
+            <h3>Cancelled</h3>
+            <strong id="cancelledCount">0</strong>
+        </div>
+    </div>
+
+</div>
+
+<!-- WIFI REVENUE DASHBOARD -->
+
+<div class="wifi-revenue-card">
+
+    <h2>💵 Wi-Fi Sales Overview</h2>
+
+    <div class="wifi-revenue-grid">
+
+        <div class="revenue-box">
+            <span>💰 Total Revenue</span>
+            <strong id="totalWifiRevenue">TZS 0</strong>
+        </div>
+
+        <div class="revenue-box">
+            <span>📅 Today</span>
+            <strong id="todayWifiRevenue">TZS 0</strong>
+        </div>
+
+        <div class="revenue-box">
+            <span>📆 This Week</span>
+            <strong id="weekWifiRevenue">TZS 0</strong>
+        </div>
+
+        <div class="revenue-box">
+            <span>🗓️ This Month</span>
+            <strong id="monthWifiRevenue">TZS 0</strong>
+        </div>
+
+        <div class="revenue-box">
+            <span>🎟️ Vouchers Sold</span>
+            <strong id="totalWifiSold">0</strong>
+        </div>
+
+        <div class="revenue-box">
+            <span>🏆 Best Package</span>
+            <strong id="bestWifiPackage">—</strong>
+        </div>
+
+    </div>
+
+   </div>
+
+   <div class="wifi-card">
+
+    <h2>📅 Daily Wi-Fi Revenue</h2>
+
+    <div
+        id="wifiRevenueChart"
+        style="width:100%; height:320px;">
+    </div>
+
+</div>
+
+<div class="wifi-card">
+
+    <h2>📦 Package Revenue</h2>
+
+    <div
+        id="wifiPackageChart"
+        style="width:100%; height:320px;">
+    </div>
+
+</div>
+
+<div class="wifi-card">
+
+    <h2>💳 Payment Method Revenue</h2>
+
+    <div
+        id="wifiPaymentChart"
+        style="width:100%; height:320px;">
+    </div>
+
+</div>
+
+    <div class="wifi-header">
+
+        <h1>
+            📶 Wi-Fi Vouchers
+        </h1>
+
+        <button
+            type="button"
+            onclick="loadVouchers()">
+
+            🔄 Refresh
+
+        </button>
+        <button
+             type="button"
+         onclick="window.location.href='wifi-voucher-sales.html'">
+
+            📋 Sales History
+
+        </button>
+        <button
+             type="button"
+              onclick="window.location.href='wifi-dashboard.html'">
+
+             📊 Dashboard
+
+            </button>
+
+    </div>
+
+
+    <!-- CREATE VOUCHER -->
+
+    <div class="wifi-card">
+
+        <h2>
+            Create Voucher
+        </h2>
+
+        <form
+            id="voucherForm"
+            class="wifi-form">
+
+
+            <input
+                type="text"
+                id="packageName"
+                placeholder="Package Name"
+                required>
+
+
+            <input
+                type="number"
+                id="voucherPrice"
+                placeholder="Price"
+                min="0"
+                required>
+
+
+            <input
+                type="number"
+                id="voucherDuration"
+                placeholder="Duration"
+                min="1"
+                required>
+
+
+            <select
+                id="durationUnit">
+
+                <option value="Minutes">
+                    Minutes
+                </option>
+
+                <option value="Hours" selected>
+                    Hours
+                </option>
+
+                <option value="Days">
+                    Days
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit">
+
+                ➕ Create Voucher
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div
+        id="wifiMessage"
+        class="wifi-message">
+    </div>
+
+
+    <!-- VOUCHER LIST -->
+
+    <div class="wifi-card">
+
+        <h2>
+            Voucher Inventory
+        </h2>
+
+
+        <div class="wifi-table-wrapper">
+
+            <table class="wifi-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Code
+                        </th>
+
+                        <th>
+                            Package
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Duration
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="voucherTableBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================
+     SELL VOUCHER MODAL
+===================================== -->
+
+<div
+    id="sellVoucherModal"
+    class="wifi-modal">
+
+
+    <div class="wifi-modal-content">
+
+
+        <div class="wifi-modal-header">
+
+            <h2>
+                💰 Sell Wi-Fi Voucher
+            </h2>
+
+
+            <button
+                type="button"
+                class="wifi-close"
+                onclick="closeSellVoucherModal()">
+
+                &times;
+
+            </button>
+
+        </div>
+
+
+        <!-- VOUCHER SUMMARY -->
+
+        <div class="voucher-summary">
+
+            <div class="voucher-summary-row">
+
+                <span>
+                    Voucher Code
+                </span>
+
+                <strong id="sellVoucherCode">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="voucher-summary-row">
+
+                <span>
+                    Package
+                </span>
+
+                <strong id="sellVoucherPackage">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="voucher-summary-row">
+
+                <span>
+                    Duration
+                </span>
+
+                <strong id="sellVoucherDuration">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="voucher-summary-row">
+
+                <span>
+                    Price
+                </span>
+
+                <strong id="sellVoucherPrice">
+                    TSh 0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- SELL FORM -->
+
+        <form
+            id="sellVoucherForm"
+            class="sell-form">
+
+
+            <div>
+
+                <label for="saleCustomerName">
+                    Customer Name
+                </label>
+
+                <input
+                    type="text"
+                    id="saleCustomerName"
+                    placeholder="Customer name"
+                    required>
+
+            </div>
+
+
+            <div>
+
+                <label for="saleCustomerPhone">
+                    Customer Phone
+                </label>
+
+                <input
+                    type="tel"
+                    id="saleCustomerPhone"
+                    placeholder="Customer phone"
+                    required>
+
+            </div>
+
+
+            <div>
+
+                <label for="salePaymentMethod">
+                    Payment Method
+                </label>
+
+                <select
+                    id="salePaymentMethod">
+
+                    <option value="Cash">
+                        💵 Cash
+                    </option>
+
+                    <option value="M-Pesa">
+                        📱 M-Pesa
+                    </option>
+
+                    <option value="Card">
+                        💳 Card
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label for="saleAmountReceived">
+                    Amount Received
+                </label>
+
+                <input
+                    type="number"
+                    id="saleAmountReceived"
+                    min="0"
+                    step="1"
+                    placeholder="Enter amount received"
+                    required>
+
+            </div>
+
+
+            <div class="change-box">
+
+                Change
+
+                <strong id="saleChange">
+                    TSh 0
+                </strong>
+
+            </div>
+
+
+            <div class="sell-actions">
+                
+
+                <button
+                    type="button"
+                    class="cancel-sale"
+                    onclick="closeSellVoucherModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="confirm-sale">
+
+                    ✅ Confirm Sale
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+<script
+    src="../js/wifi-vouchers.js">
+</script>
+
+
+</body>
+
+</html>

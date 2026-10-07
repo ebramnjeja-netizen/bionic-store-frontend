@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout | Bionic Store</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+
+</head>
+
+<body>
+
+<div class="checkout-container">
+
+
+<h1>🛒 Checkout</h1>
+
+<!-- Order Summary -->
+
+<div class="checkout-summary">
+
+    <h2>Order Summary</h2>
+
+    <div id="checkoutItems">
+        <p>Loading your cart...</p>
+    </div>
+
+    <div class="checkout-summary-line">
+        <span>Subtotal</span>
+        <strong id="checkoutSubtotal">TZS 0</strong>
+    </div>
+
+    <div class="checkout-summary-line">
+        <span>Delivery</span>
+        <strong id="checkoutDelivery">TZS 0</strong>
+    </div>
+
+    <div class="coupon-section">
+
+    <h3>🎟️ Discount Code</h3>
+
+    <div class="coupon-input">
+
+        <input
+            type="text"
+            id="couponCode"
+            placeholder="Enter coupon code"
+        >
+
+        <button
+            type="button"
+            id="applyCoupon">
+            Apply
+        </button>
+
+    </div>
+
+    <p id="couponMessage"></p>
+
+    <div class="summary-row">
+        <span>Discount</span>
+        <strong id="checkoutDiscount">TZS 0</strong>
+    </div>
+
+</div>
+
+
+    <div class="checkout-total">
+        <span>Total</span>
+        <strong id="checkoutTotal">TZS 0</strong>
+    </div>
+
+</div>
+
+
+<!-- Customer Information -->
+
+<div class="checkout-section">
+
+    <h2>Customer Information</h2>
+
+    <form id="checkoutForm">
+
+        <input
+            type="text"
+            id="fullName"
+            placeholder="Full Name"
+            required>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Phone Number"
+            required>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required>
+
+        <textarea
+            id="shippingAddress"
+            placeholder="Shipping Address"
+            required></textarea>
+
+
+        <!-- Payment -->
+
+        <h3>💳 Payment Method</h3>
+
+        <label class="payment-option">
+
+            <input
+                type="radio"
+                name="payment"
+                value="Cash on Delivery"
+                checked>
+
+            Cash on Delivery
+
+        </label>
+
+        <label class="payment-option">
+
+            <input
+                type="radio"
+                name="payment"
+                value="M-Pesa">
+
+            M-Pesa
+
+        </label>
+
+        <label class="payment-option">
+
+            <input
+                type="radio"
+                name="payment"
+                value="Card">
+
+            Credit Card
+
+        </label>
+
+
+        <input
+            type="hidden"
+            id="paymentMethod"
+            value="Cash on Delivery">
+
+
+        <button
+            type="submit"
+            class="place-order-btn">
+
+            🚀 Place Order
+
+        </button>
+
+        <div id="mpesaDetails" class="payment-details" style="display: none;">
+
+    <h3>📱 M-Pesa Payment</h3>
+
+    <p>Enter your M-Pesa phone number to continue.</p>
+
+    <input
+      type="tel"
+       id="mpesaPhone"
+       placeholder="M-Pesa Phone Number"
+    >
+
+    </div>
+
+    </form>
+
+</div>
+
+
+</div>
+
+<script>
+
+/* ============================
+   PAYMENT METHOD
+============================ */
+
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+
+    radio.addEventListener("change", function () {
+
+        document.getElementById("paymentMethod").value =
+            this.value;
+
+        const mpesaDetails =
+            document.getElementById("mpesaDetails");
+
+        if (this.value === "M-Pesa") {
+            mpesaDetails.style.display = "block";
+        } else {
+            mpesaDetails.style.display = "none";
+        }
+
+        const mpesaPhone =
+             document.getElementById("mpesaPhone");
+
+        if (this.value === "M-Pesa") {
+              mpesaPhone.required = true;
+        } else {
+              mpesaPhone.required = false;
+              mpesaPhone.value = "";
+        }
+
+    });
+
+});
+
+    
+
+/* ============================
+   CHECKOUT FORM
+============================ */
+
+document
+    .getElementById("checkoutForm")
+    .addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+        placeOrder();
+
+    });
+
+</script>
+
+<script src="../js/cart.js"></script>
+<script src="../js/checkout.js"></script>
+
+</body>
+
+</html>
