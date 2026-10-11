@@ -1,5 +1,3 @@
-const API_BASE_URL = "https://bionic-store-backend.onrender.com/api";
-
 function formatMoney(value) {
     return `TZS ${Number(value || 0).toLocaleString("en-TZ")}`;
 }
@@ -48,7 +46,7 @@ cart.forEach(item => {
     if (item.images && item.images.length) {
 
         image = item.images[0].startsWith("/uploads")
-            ? `http://localhost:5000${item.images[0]}`
+            ? `https://bionic-store-backend.onrender.com/api${item.images[0]}`
             : item.images[0].startsWith("http")
                 ? item.images[0]
                 : `../${item.images[0]}`;
