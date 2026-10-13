@@ -38,22 +38,19 @@ function renderProducts() {
 
     products.forEach(product => {
 
-       const image =
-          product.images && product.images.length
-        ? (
-            product.images[0].startsWith("/uploads")
-                     ? `https://bionic-store-backend.onrender.com${product.images[0]}`
-                : (
-                    product.images[0].startsWith("http")
-                        ? product.images[0]
-                        : `images/${product.images[0]}`
-                  )
-          )
-        : `images/${product.images[0]}`
+       const imageUrl = product.images?.[0]
+    ? (
+        product.images[0].startsWith("/uploads/")
+            ? `images/${product.images[0].split("/").pop()}`
+            : product.images[0].startsWith("http")
+                ? product.images[0]
+                : `images/${product.images[0]}`
+      )
+    : "images/placeholder.jpg";
 
             console.log(product.images[0]);
-            console.log(image);   
-            console.log("IMAGE URL:", image);  
+            console.log(imageUrl);   
+            console.log("IMAGE URL:", imageUrl  );  
 
         
 
@@ -62,7 +59,7 @@ function renderProducts() {
 
             ${product.badge ? `<div class="badge">${product.badge}</div>` : ""}
 
-            <img src="${image}" alt="${product.name}">
+            <img src="${imageUrl}" alt="${product.name}">
 
             <h3>${product.name}</h3>
 
@@ -178,18 +175,16 @@ function renderFilteredProducts(productList) {
 
     productList.forEach(product => {
 
-        const image =
-            product.images && product.images.length
-                ? (
-                    product.images[0].startsWith("/uploads")
-                        ? `https://bionic-store-backend.onrender.com/api${product.images[0]}`
-                        : (
-                            product.images[0].startsWith("http")
-                                ? product.images[0]
-                                : `images/${product.images[0]}`
-                        )
-                )
-                : `images/${product.image}`;
+        const imageUrl = product.images?.[0]
+    ? (
+        product.images[0].startsWith("/uploads/")
+            ? `images/${product.images[0].split("/").pop()}`
+            : product.images[0].startsWith("http")
+                ? product.images[0]
+                : `images/${product.images[0]}`
+      )
+    : "images/placeholder.jpg";
+                 `images/${product.image}`;
 
         productGrid.innerHTML += `
             <div
@@ -204,7 +199,7 @@ function renderFilteredProducts(productList) {
                 }
 
                 <img
-                    src="${image}"
+                    src="${imageUrl}"
                     alt="${product.name}"
                 >
 
