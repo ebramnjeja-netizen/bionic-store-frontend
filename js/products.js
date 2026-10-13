@@ -42,7 +42,7 @@ function renderProducts() {
           product.images && product.images.length
         ? (
             product.images[0].startsWith("/uploads")
-                ? `http://localhost:5000${product.images[0]}`
+                     ? `https://bionic-store-backend.onrender.com${product.images[0]}`
                 : (
                     product.images[0].startsWith("http")
                         ? product.images[0]
@@ -182,7 +182,7 @@ function renderFilteredProducts(productList) {
             product.images && product.images.length
                 ? (
                     product.images[0].startsWith("/uploads")
-                        ? `http://localhost:5000${product.images[0]}`
+                        ? `https://bionic-store-backend.onrender.com/api${product.images[0]}`
                         : (
                             product.images[0].startsWith("http")
                                 ? product.images[0]
