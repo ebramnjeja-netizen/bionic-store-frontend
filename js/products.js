@@ -38,15 +38,14 @@ function renderProducts() {
 
     products.forEach(product => {
 
-       const imageUrl = product.images?.[0]
-    ? (
-        product.images[0].startsWith("/uploads/")
-            ? `images/${product.images[0].split("/").pop()}`
-            : product.images[0].startsWith("http")
-                ? product.images[0]
-                : `images/${product.images[0]}`
-      )
-    : "images/placeholder.jpg";
+       const imagePath = product.images?.[0] || product.image || "";
+const fileName = imagePath.split("/").pop();
+
+const imageUrl = imagePath.startsWith("http")
+    ? imagePath
+    : imagePath.startsWith("/uploads/")
+        ? `https://bionic-store-frontend.onrender.com/images/${fileName.replace(/\.jpeg$/i, ".jpg")}`
+        : `images/${fileName}`;
 
             console.log(product.images[0]);
             console.log(imageUrl);   
@@ -175,16 +174,14 @@ function renderFilteredProducts(productList) {
 
     productList.forEach(product => {
 
-        const imageUrl = product.images?.[0]
-    ? (
-        product.images[0].startsWith("/uploads/")
-            ? `images/${product.images[0].split("/").pop()}`
-            : product.images[0].startsWith("http")
-                ? product.images[0]
-                : `images/${product.images[0]}`
-      )
-    : "images/placeholder.jpg";
-                 `images/${product.image}`;
+       const imagePath = product.images?.[0] || product.image || "";
+const fileName = imagePath.split("/").pop();
+
+const imageUrl = imagePath.startsWith("http")
+    ? imagePath
+    : imagePath.startsWith("/uploads/")
+        ? `https://bionic-store-frontend.onrender.com/images/${fileName.replace(/\.jpeg$/i, ".jpg")}`
+        : `images/${fileName}`;
 
         productGrid.innerHTML += `
             <div
