@@ -45,9 +45,9 @@ function addToCart(productId) {
             _id: product._id,
             name: product.name,
             price: product.price,
-            image: product.images[0].startsWith("/uploads")
-                ? `http://localhost:5000${product.images[0]}`
-                : product.images[0],
+            image: product.images?.[0]?.startsWith("/uploads/")
+                ? `https://bionic-store-frontend.onrender.com/images/${product.images[0].split("/").pop().replace(/\.jpeg$/i, ".jpg")}`
+                : (product.images?.[0] || product.image || "images/phone.jpg"),
             quantity: 1
         });
 
@@ -59,8 +59,8 @@ function addToCart(productId) {
     alert(product.name + " added to cart!");
 }
 
-function updateCart() {
 
+function updateCart() {
     const cartItems = document.getElementById("cartItems");
     const cartCount = document.getElementById("cartCount");
     const cartTotal = document.getElementById("cartTotal");
@@ -68,37 +68,50 @@ function updateCart() {
     if (!cartItems) return;
 
     cartItems.innerHTML = "";
-
     let total = 0;
 
     cart.forEach(item => {
-
         total += item.price * item.quantity;
+
+        let imageUrl = item.image || "";
+
+        // Convert old local backend upload URLs to live frontend images.
+        if (
+            imageUrl.includes("localhost:5000/uploads/") ||
+            imageUrl.startsWith("/uploads/")
+        ) {
+            const filename = imageUrl
+                .split("/")
+                .pop()
+                .replace(/\.jpeg$/i, ".jpg");
+
+            imageUrl = `https://bionic-store-frontend.onrender.com/images/${filename}`;
+        }
+
+        // Keep local product images working.
+        if (imageUrl && !imageUrl.startsWith("http") && !imageUrl.startsWith("../")) {
+            imageUrl = `images/${imageUrl.replace(/^images\//, "")}`;
+        }
 
         cartItems.innerHTML += `
             <div class="cart-item">
-
-                <img src="${item.image}" width="70">
+                <img src="${imageUrl}" width="70" alt="${item.name || "Product"}">
 
                 <div>
-
                     <h4>${item.name}</h4>
-
-                    <p>$${item.price}</p>
-
+                    <p>TZS ${Number(item.price || 0).toLocaleString("en-TZ")}</p>
                     <p>Qty: ${item.quantity}</p>
-
                 </div>
-
             </div>
         `;
-
     });
 
-    cartCount.textContent = cart.length;
-    cartTotal.textContent = "$" + total.toFixed(2);
-
+    if (cartCount) cartCount.textContent = cart.length;
+    if (cartTotal) {
+        cartTotal.textContent = "TZS " + total.toLocaleString("en-TZ");
+    }
 }
+
 
 function renderCartPage() {
 
@@ -114,7 +127,7 @@ function renderCartPage() {
     if (cart.length === 0) {
 
         container.innerHTML = "<h2>Your cart is empty.</h2>";
-        totalElement.textContent = "$0.00";
+        totalElement.textContent = "TZS 0";
         return;
 
     }
@@ -126,13 +139,20 @@ function renderCartPage() {
         container.innerHTML += `
 <div class="cart-page-item">
 
-    <img src="../${item.image}" width="120">
+     <img
+         src="${item.image?.replace(
+               /^http:\/\/localhost:5000\/uploads\//,
+               "https://bionic-store-frontend.onrender.com/images/"
+          ).replace(/^\/uploads\//, "https://bionic-store-frontend.onrender.com/images/").replace(/\.jpeg$/i, ".jpg") || "images/phone.jpg"}"
+         width="70"
+         alt="${item.name || "Product"}"
+    >
 
     <div class="cart-info">
 
         <h3>${item.name}</h3>
 
-        <p>£${item.price}</p>
+        <p>TZS ${Number(item.price || 0).toLocaleString("en-TZ")}</p>
 
         <div class="qty-controls">
 
@@ -150,7 +170,7 @@ function renderCartPage() {
 
         </div>
 
-        <h4>Subtotal: £${(item.price * item.quantity).toFixed(2)}</h4>
+        <h4>Subtotal: TZS ${(item.price * item.quantity).toLocaleString("en-TZ")}</h4>
 
         <button
             class="remove-btn"
@@ -167,7 +187,7 @@ function renderCartPage() {
 
     });
 
-    totalElement.textContent = "$" + total.toFixed(2);
+    totalElement.textContent = "TZS " + total.toLocaleString("en-TZ");
 
 }
 
