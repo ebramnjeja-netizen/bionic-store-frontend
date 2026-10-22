@@ -20,6 +20,31 @@ function getStockStatus(stock) {
     return `<span class="stock out-stock">❌ Out of Stock</span>`;
 }
 
+
+function getProductImageUrl(product) {
+    const imagePath = product.images?.[0] || product.image || "";
+
+    if (!imagePath) {
+        return "images/phone.jpg";
+    }
+
+    if (imagePath.startsWith("http")) {
+        return imagePath;
+    }
+
+    const fileName = imagePath.split("/").pop()
+        .replace(/\.jpeg$/i, ".jpg");
+
+    if (imagePath.startsWith("/uploads/")) {
+        return `https://bionic-store-frontend.onrender.com/images/${fileName}`;
+    }
+
+    return `images/${fileName}`;
+}
+
+
+
+
 function renderProducts() {
 
     const productGrid = document.getElementById("productGrid");
@@ -38,14 +63,7 @@ function renderProducts() {
 
     products.forEach(product => {
 
-       const imagePath = product.images?.[0] || product.image || "";
-const fileName = imagePath.split("/").pop();
-
-const imageUrl = imagePath.startsWith("http")
-    ? imagePath
-    : imagePath.startsWith("/uploads/")
-        ? `https://bionic-store-frontend.onrender.com/images/${fileName.replace(/\.jpeg$/i, ".jpg")}`
-        : `images/${fileName}`;
+       const imageUrl = getProductImageUrl(product);
 
             console.log(product.images[0]);
             console.log(imageUrl);   
@@ -174,14 +192,7 @@ function renderFilteredProducts(productList) {
 
     productList.forEach(product => {
 
-       const imagePath = product.images?.[0] || product.image || "";
-const fileName = imagePath.split("/").pop();
-
-const imageUrl = imagePath.startsWith("http")
-    ? imagePath
-    : imagePath.startsWith("/uploads/")
-        ? `https://bionic-store-frontend.onrender.com/images/${fileName.replace(/\.jpeg$/i, ".jpg")}`
-        : `images/${fileName}`;
+       const imageUrl =  getProductImageUrl(product);
 
         productGrid.innerHTML += `
             <div
@@ -295,9 +306,19 @@ function setupProductFilters() {
 
 
 
-function openProduct(id) {
 
-    localStorage.setItem("selectedProduct", id);
+
+function openProduct(id) {
+    localStorage.setItem("selectedProduct", String(id));
+
+    if (typeof saveRecentlyViewed === "function") {
+        saveRecentlyViewed(String(id));
+    }
 
     window.location.href = "pages/product.html";
 }
+
+
+
+
+
