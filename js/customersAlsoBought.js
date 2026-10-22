@@ -1,72 +1,79 @@
-function renderCustomersAlsoBought(product) {
 
-    const container =
-        document.getElementById("customersAlsoBought");
+function renderCustomersAlsoBought(product) {
+    const container = document.getElementById("customersAlsoBought");
 
     if (!container) {
+        console.log("Customers Also Bought section not found");
         return;
     }
 
     container.innerHTML = "";
 
-    if (!product || !product.alsoBought) {
+    if (!product || !Array.isArray(products)) {
+        console.log("Product list is not ready");
         return;
     }
 
-    product.alsoBought.forEach(productId => {
+    const currentId = String(product._id || product.id);
+    const category = String(product.category || "").toLowerCase();
 
-        const item = products.find(
-            p => String(p._id) === String(productId)
-        );
+    const recommendations = products.filter(item =>
+        String(item._id || item.id) !== currentId &&
+        category &&
+        String(item.category || "").toLowerCase() === category
+    ).slice(0, 4);
 
-        if (!item) {
-            return;
-        }
+    console.log("Customers Also Bought recommendations:", recommendations);
 
-        const image =
-            item.images && item.images.length
-                ? item.images[0]
-                : "";
+    if (recommendations.length === 0) {
+        container.innerHTML = "<p>No related products available yet.</p>";
+        return;
+    }
+
+    recommendations.forEach(item => {
+        const image = item.images?.[0] || item.image || "";
+        const filename = image.split("/").pop();
 
         let imageUrl = "";
-
-        if (image.startsWith("/uploads")) {
-
-            imageUrl =
-                `http://localhost:5000${image}`;
-
-        } else if (image.startsWith("http")) {
-
+        if (image.startsWith("http")) {
             imageUrl = image;
-
-        } else {
-
-            imageUrl = `../${image}`;
-
+        } else if (image.startsWith("/uploads/")) {
+            imageUrl = `https://bionic-store-frontend.onrender.com/images/${filename}`;
+        } else if (filename) {
+            imageUrl = `../images/${filename}`;
         }
 
-        container.innerHTML += `
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.style.cursor = "pointer";
 
-            <div
-                class="product-card"
-                onclick="openProduct('${item._id}')"
-            >
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = item.name || "Product image";
+        img.onerror = () => {
+            img.style.display = "none";
+        };
 
-                <img
-                    src="${imageUrl}"
-                    alt="${item.name}"
-                >
+        const name = document.createElement("h4");
+        name.textContent = item.name || "Product";
 
-                <h4>${item.name}</h4>
+        const price = document.createElement("p");
+        price.textContent =
+            `TZS ${Number(item.price || 0).toLocaleString("en-TZ")}`;
 
-                <p>
-                    $${Number(item.price).toFixed(2)}
-                </p>
+        card.append(img, name, price);
 
-            </div>
+        card.addEventListener("click", () => {
+            localStorage.setItem(
+                "selectedProduct",
+                String(item._id || item.id)
+            );
+            window.location.href = "product.html";
+        });
 
-        `;
-
+        container.appendChild(card);
     });
-
 }
+
+
+

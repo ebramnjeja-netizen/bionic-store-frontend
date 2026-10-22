@@ -26,6 +26,7 @@ async function loadProducts() {
 
         renderProducts();
         setupProductFilters();
+        renderRecentlyViewed();
 
     } catch (error) {
 
@@ -35,13 +36,9 @@ async function loadProducts() {
         );
 
     }
-}
 
-window.addEventListener("DOMContentLoaded", () => {
-    if (document.getElementById("productGrid")) {
-        loadProducts();
-    }
-});
+    
+}
 
 
 
@@ -72,6 +69,9 @@ async function loadProductDetails() {
         const product = productList.find(
             item => String(item._id) === String(productId)
         );
+
+        products = productList;
+        console.log("Products available for recommendations:", products.length);
 
 
         console.log("Selected product:", product);
@@ -151,16 +151,29 @@ async function loadProductDetails() {
             `).join("");
         }
 
+           console.log("Calling Customers Also Bought:", product.name);
+
+            if (typeof renderCustomersAlsoBought === "function") {
+                     renderCustomersAlsoBought(product);
+                }
+
     } catch (error) {
         console.error("Failed to load product details:", error);
     }
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+
+window.addEventListener("DOMContentLoaded", async () => {
     if (document.getElementById("detailImage")) {
-        loadProductDetails();
+        await loadProductDetails();
+        return;
+    }
+
+    if (document.getElementById("productGrid")) {
+        await loadProducts();
     }
 });
+
 
 
 
