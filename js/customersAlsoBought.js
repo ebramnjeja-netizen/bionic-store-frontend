@@ -15,12 +15,16 @@ function renderCustomersAlsoBought(product) {
     }
 
     const currentId = String(product._id || product.id);
-    const category = String(product.category || "").toLowerCase();
+    const category = String(product.category || "")
+    .toLowerCase()
+    .replace(/s$/, "");
 
     const recommendations = products.filter(item =>
         String(item._id || item.id) !== currentId &&
         category &&
-        String(item.category || "").toLowerCase() === category
+        String(item.category || "")
+             .toLowerCase()
+             .replace(/s$/, "") === category
     ).slice(0, 4);
 
     console.log("Customers Also Bought recommendations:", recommendations);
