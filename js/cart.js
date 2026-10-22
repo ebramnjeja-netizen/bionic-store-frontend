@@ -60,6 +60,7 @@ function addToCart(productId) {
 }
 
 
+
 function updateCart() {
     const cartItems = document.getElementById("cartItems");
     const cartCount = document.getElementById("cartCount");
@@ -71,11 +72,13 @@ function updateCart() {
     let total = 0;
 
     cart.forEach(item => {
-        total += item.price * item.quantity;
+        const price = Number(item.price || 0);
+        const quantity = Number(item.quantity || 1);
+        total += price * quantity;
 
+        // Preserve the working product image URLs.
         let imageUrl = item.image || "";
 
-        // Convert old local backend upload URLs to live frontend images.
         if (
             imageUrl.includes("localhost:5000/uploads/") ||
             imageUrl.startsWith("/uploads/")
@@ -85,32 +88,63 @@ function updateCart() {
                 .pop()
                 .replace(/\.jpeg$/i, ".jpg");
 
-            imageUrl = `https://bionic-store-frontend.onrender.com/images/${filename}`;
+            imageUrl =
+                `https://bionic-store-frontend.onrender.com/images/${filename}`;
         }
 
         // Keep local product images working.
-        if (imageUrl && !imageUrl.startsWith("http") && !imageUrl.startsWith("../")) {
+        if (
+            imageUrl &&
+            !imageUrl.startsWith("http") &&
+            !imageUrl.startsWith("../")
+        ) {
             imageUrl = `images/${imageUrl.replace(/^images\//, "")}`;
         }
 
         cartItems.innerHTML += `
             <div class="cart-item">
-                <img src="${imageUrl}" width="70" alt="${item.name || "Product"}">
+                <img
+                    src="${imageUrl || "images/phone.jpg"}"
+                    width="70"
+                    alt="${item.name || "Product"}"
+                >
 
-                <div>
-                    <h4>${item.name}</h4>
-                    <p>TZS ${Number(item.price || 0).toLocaleString("en-TZ")}</p>
-                    <p>Qty: ${item.quantity}</p>
+                <div class="cart-info">
+                    <h4>${item.name || "Product"}</h4>
+
+                    <p>TZS ${price.toLocaleString("en-TZ")}</p>
+
+                    <div class="qty-controls">
+                        <button
+                            type="button"
+                            onclick="decreaseQuantity('${item._id}')"
+                            aria-label="Decrease quantity"
+                        >−</button>
+
+                        <span>${quantity}</span>
+
+                        <button
+                            type="button"
+                            onclick="increaseQuantity('${item._id}')"
+                            aria-label="Increase quantity"
+                        >+</button>
+                    </div>
+
+                    <p>Subtotal: TZS ${(price * quantity).toLocaleString("en-TZ")}</p>
                 </div>
             </div>
         `;
     });
 
-    if (cartCount) cartCount.textContent = cart.length;
+    if (cartCount) {
+        cartCount.textContent = cart.length;
+    }
+
     if (cartTotal) {
         cartTotal.textContent = "TZS " + total.toLocaleString("en-TZ");
     }
 }
+
 
 
 function renderCartPage() {
@@ -155,20 +189,18 @@ function renderCartPage() {
         <p>TZS ${Number(item.price || 0).toLocaleString("en-TZ")}</p>
 
         <div class="qty-controls">
+    <button
+        type="button"
+        onclick="decreaseQuantity('${item._id}')"
+    >−</button>
 
-            <button onclick="decreaseQuantity('${item._id}')">
-                -
-            </button>
+    <span>${item.quantity}</span>
 
-            <span>${item.quantity}</span>
-
-            <p>📦 Available: ${getProductStock(item._id)}</p>
-
-            <button onclick="increaseQuantity('${item._id}')">
-                +
-            </button>
-
-        </div>
+    <button
+        type="button"
+        onclick="increaseQuantity('${item._id}')"
+    >+</button>
+</div>
 
         <h4>Subtotal: TZS ${(item.price * item.quantity).toLocaleString("en-TZ")}</h4>
 
