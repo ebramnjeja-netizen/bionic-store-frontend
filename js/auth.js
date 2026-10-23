@@ -1,5 +1,4 @@
 
-// Register
 async function register(name, email, password) {
 
     try {
@@ -21,6 +20,11 @@ async function register(name, email, password) {
         });
 
         const data = await response.json();
+
+
+
+
+
 
         if (!response.ok) {
             alert(data.message);
@@ -60,20 +64,29 @@ async function login(email, password) {
 
         const data = await response.json();
 
+        console.log("LOGIN USER IS ADMIN:", data.user?.isAdmin);
+
+
         if (!response.ok) {
             alert(data.message);
             return;
         }
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
 
-        alert(`Welcome ${data.user.name}!`);
+localStorage.setItem("token", data.token);
+localStorage.setItem("user", JSON.stringify(data.user));
 
-        window.location.href = "../index.html";
+alert(`Welcome ${data.user.name}!`);
 
-    } 
-    
+if (data.user.isAdmin === true) {
+    window.location.href = "dashboard.html";
+} else {
+    window.location.href = "../index.html";
+}
+
+
+    }
+
     catch (error) {
 
     console.error("LOGIN ERROR:", error);
@@ -134,7 +147,7 @@ function updateNavbarUser() {
     }
 
     };
-    
+
     } else {
 
         loginText.textContent = "Login";
