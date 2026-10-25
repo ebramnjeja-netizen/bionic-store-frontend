@@ -88,8 +88,13 @@ async function loadOrders(token) {
 async function loadProducts(token) {
 
     const response = await fetch(
-        `${API_BASE_URL}/products`
-    );
+    `${API_BASE_URL}/products/admin/all`,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
 
     const data = await response.json();
 

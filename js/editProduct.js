@@ -18,7 +18,16 @@ async function loadProduct() {
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/products/${productId}`);
+const response = await fetch(
+    `${API_BASE_URL}/products/admin/${productId}`,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
+
+
 
         const product = await response.json();
 

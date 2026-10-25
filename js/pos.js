@@ -99,53 +99,49 @@ async function loadPOSCustomers() {
 // LOAD PRODUCTS
 // ==================================================
 
+
 async function loadProducts() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        console.error("Admin login required to load POS products.");
+        return;
+    }
 
     try {
+        const response = await  fetch(
+            `${API_BASE_URL}/products/admin/all`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
 
-        const response =
-            await fetch(
-                `${API_BASE_URL}/products`
-            );
-
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
-
             throw new Error(
-                data.message ||
-                "Failed to load products"
+                data.message || "Failed to load products"
             );
-
         }
 
-        products =
-            Array.isArray(data)
-                ? data
-                : data.products || [];
+        products = Array.isArray(data)
+            ? data
+            : data.products || [];
 
         renderProducts();
 
     } catch (error) {
+        console.error("POS product loading error:", error);
 
-        console.error(error);
-
-        const grid =
-            document.getElementById(
-                "productGrid"
-            );
+        const grid = document.getElementById("productGrid");
 
         if (grid) {
-
             grid.innerHTML = `
-                <p>
-                    ❌ Failed to load products.
-                </p>
+                <p>❌ Failed to load products. Please check your admin login.</p>
             `;
-
         }
-
     }
 }
 
@@ -186,7 +182,7 @@ function renderProducts(list = products) {
 
         const imageUrl =
             image.startsWith("/uploads")
-                ? `http://localhost:5000${image}`
+                ? `https://bionic-store-backend.onrender.com${image}`
                 : image.startsWith("http")
                     ? image
                     : `../${image}`;

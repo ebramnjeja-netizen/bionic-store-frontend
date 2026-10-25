@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://bionic-store-backend.onrender.com/api";
 
 function formatMoney(amount) {
     return `TZS ${Number(amount || 0).toLocaleString("en-TZ", {
@@ -13,11 +13,11 @@ async function loadProducts() {
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/products`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+        const response = await fetch(`${API_BASE_URL}/products/admin/all`, {
+             headers: {
+                   Authorization: `Bearer ${token}`
+                  }
+            });
 
         const products = await response.json();
 
@@ -43,8 +43,8 @@ async function loadProducts() {
             const image = product.images && product.images.length > 0
                  ? (
                        product.images[0].startsWith("/uploads")
-                               ? `http://localhost:5000${product.images[0]}`
-                             : `../${product.images[0]}`
+                               ? `https://bionic-store-backend.onrender.com${product.images[0]}`
+                              : `../${product.images[0]}`
                     )
                     : "../images/placeholder.jpg";
 
@@ -235,9 +235,16 @@ async function updateStock(productId, newStock) {
 
     try {
 
-        const productResponse = await fetch(
-            `${API_BASE_URL}/products/${productId}`
-        );
+
+    const productResponse = await fetch(
+          `${API_BASE_URL}/products/admin/${productId}`,
+          {
+                   headers: {
+                  Authorization: `Bearer ${token}`
+                  }
+              }
+            );
+
 
         const product = await productResponse.json();
 
